@@ -44,32 +44,21 @@ const Sec2 = () => {
     });
   }, []);
   return (
-    <div className=' min-h-screen w-full flex flex-col text-stone-400 mt-20 gap-30'>
-      <div className='flex flex-col gap-3 items-center md:grid md:grid-cols-2 md:h-70  '>
-          <img src='/img1.png' className='h-100 w-150 justify-self-center'></img>
-
-        <div className='justify-self-center  ' ref={rightRef}>
-          <h1 className='text-2xl text-white'>The most advanced resume checker, powered by AI</h1>
-          <h5 className='text-start p-3 md:p-5'>Score My Resume goes beyond basic spell checking and uses leading Artificial Intelligence technology to grade your resume on 20+ resume checks that recruiters and hiring managers pay attention to. Specifically, the platform analyzes your resume impact by evaluating the strength of your word choice, and also checks your resume style and brevity.
-
-<br/><br/>Similarly, it also scores each of the bullet points on your resume and checks for key elements such as inconsistencies, length, word choice, filler words, keywords and buzzwords.</h5>
+    <div className='min-h-screen w-full flex flex-col text-zinc-300 mt-20 gap-24 px-4 sm:px-6 md:px-8'>
+      <div className='mx-auto flex flex-col gap-3 items-center md:grid md:grid-cols-2 md:h-70 max-w-7xl'>
+        <img src='/img1.png' className='h-100 w-150 justify-self-center' alt='Resume illustration' />
+        <div className='justify-self-center' ref={rightRef}>
+          <h1 className='text-2xl text-white text-center'>A clear and honest resume review</h1>
+          <p className='text-center p-3 md:p-5 text-zinc-300'>This tool helps you identify common resume issues such as inconsistent formatting, unclear job descriptions, and weak bullet-point impact. It is built to support your own editing process, not replace a professional review.</p>
         </div>
-        
-      
-      
-    </div>
-    <div className='flex flex-col gap-3 items-center md:grid md:grid-cols-2 md:h-70 ml-10  '>
-        
-        <div className='justify-self-center '>
-          <h1 className='text-2xl text-white'>The most advanced resume checker, powered by AI</h1>
-          <h5 className='text-start p-3 md:p-5' ref={leftRef}>Score My Resume goes beyond basic spell checking and uses leading Artificial Intelligence technology to grade your resume on 20+ resume checks that recruiters and hiring managers pay attention to. Specifically, the platform analyzes your resume impact by evaluating the strength of your word choice, and also checks your resume style and brevity.
-
-<br/><br/>Similarly, it also scores each of the bullet points on your resume and checks for key elements such as inconsistencies, length, word choice, filler words, keywords and buzzwords.</h5>
+      </div>
+      <div className='mx-auto flex flex-col gap-3 items-center md:grid md:grid-cols-2 md:h-70 max-w-7xl'>
+        <div className='justify-self-center' ref={leftRef}>
+          <h1 className='text-2xl text-white text-center'>Focus on practical improvements</h1>
+          <p className='text-center p-3 md:p-5 text-zinc-300'>The feedback is designed to help you tighten your wording, make your achievements easier to scan, and reduce resume clutter. It is a starting point for revision, with the goal of making your resume more consistent and readable.</p>
         </div>
-        <img src='/img1.png ' className='h-100 w-150 justify-self-center'></img>
-      
-      
-    </div>
+        <img src='/img1.png' className='h-100 w-150 justify-self-center' alt='Resume illustration' />
+      </div>
     </div>
   )
 }
