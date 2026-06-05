@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 import React, { useState } from 'react'
-import { HiMenu } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -13,31 +13,48 @@ const Navbar = () => {
   ];
 
   return (
-
-    <div className='bg-zinc-950 w-full h-14'>
-      <div className='mx-auto flex h-full max-w-7xl items-center justify-between px-5 sm:px-6'>
-        <div className='flex items-center gap-3'>
-          <img src='/logo.png' className='md:w-12 md:h-12 w-10 h-10' alt='Logo' />
+    <nav className='bg-zinc-950 border-b border-zinc-800 sticky top-0 z-50 w-full'>
+      <div className='mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6'>
+        <Link href="/" className='flex items-center gap-2 md:gap-3 hover:opacity-90 transition'>
+          <img src='/logo.png' className='w-10 h-10 md:w-12 md:h-12' alt='Logo' />
           <div className='hidden md:block text-zinc-100'>
-            <h5 className='text-sm font-semibold'>ResumeLens</h5>
+            <h5 className='text-sm font-bold'>ResumeLens</h5>
           </div>
-        </div>
+        </Link>
 
-        <div className='hidden md:flex md:gap-6 text-zinc-300 font-semibold'>
+        {/* Desktop Navigation */}
+        <div className='hidden md:flex gap-8 text-zinc-300 font-medium'>
           {navLinks.map((link) => (
-            <Link key={link.href} href={link.href} className='hover:text-white transition'>
+            <Link 
+              key={link.href} 
+              href={link.href} 
+              className='text-sm hover:text-white transition-colors duration-200'
+            >
               {link.label}
             </Link>
           ))}
         </div>
 
-        <div className='block md:hidden relative'>
-          <HiMenu onClick={() => setOpen(!open)} className='h-6 w-6 text-zinc-300 cursor-pointer' aria-label='Toggle menu' />
+        {/* Mobile Menu Button */}
+        <div className='md:hidden'>
+          <button 
+            onClick={() => setOpen(!open)} 
+            className='p-2 text-zinc-300 hover:text-white transition'
+            aria-label='Toggle menu'
+          >
+            {open ? <HiX size={24} /> : <HiMenu size={24} />}
+          </button>
 
+          {/* Mobile Menu */}
           {open && (
-            <div className='absolute right-0 mt-2 w-40 bg-zinc-900 rounded-md shadow-lg py-2 z-50'>
+            <div className='absolute top-16 right-0 w-full bg-zinc-900 border-b border-zinc-800 shadow-lg py-2'>
               {navLinks.map((link) => (
-                <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className='block w-full text-left px-4 py-2 text-zinc-300 hover:bg-zinc-800 hover:text-white'>
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  onClick={() => setOpen(false)} 
+                  className='block px-4 py-2 text-zinc-300 hover:bg-zinc-800 hover:text-white transition'
+                >
                   {link.label}
                 </Link>
               ))}
@@ -45,7 +62,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-    </div>
+    </nav>
   )
 }
 

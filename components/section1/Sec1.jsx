@@ -4,27 +4,37 @@ import Left from './Left';
 import Lower from './Lower';
 import Laptop from './Laptop';
 import Hero from './Hero';
+
 const Sec1 = () => {
   return (
     <>
-    <Hero className="mt-20"></Hero>
-      <div className="text-center md:grid  min-h-screen md:grid-cols-[0.6fr_0.4fr] flex flex-col text-white w-full px-4 sm:px-6 md:px-8 gap-10">
-        
-        
-        {/* LEFT SIDE */}
-        <div className='mx-auto w-full max-w-7xl'>
-          <Left />
+      <div className='w-full px-4 sm:px-6 md:px-8'>
+        <div className='mx-auto max-w-7xl'>
+          <Hero />
         </div>
+      </div>
 
-        {/* RIGHT SIDE: laptop */}
-        <div className='hidden md:flex items-start justify-center height-auto w-full max-w-7xl relative'>
-          <Laptop />
+      <div className="w-full px-4 sm:px-6 md:px-8 py-12 md:py-20">
+        <div className='mx-auto max-w-7xl'>
+          <div className="grid gap-12 md:gap-16 md:grid-cols-2 items-center min-h-[600px] md:min-h-[700px]">
+            {/* LEFT SIDE */}
+            <div className='flex justify-center md:justify-start'>
+              <Left />
+            </div>
+
+            {/* RIGHT SIDE: laptop */}
+            <div className='hidden md:flex items-center justify-center'>
+              <Laptop />
+            </div>
+          </div>
         </div>
       </div>
 
       {/* LOWER TEXT */}
-      <div className='w-full px-4 sm:px-6 md:px-8 mt-10'>
-        <Lower />
+      <div className='w-full px-4 sm:px-6 md:px-8 py-12 bg-zinc-900/30'>
+        <div className='mx-auto max-w-7xl'>
+          <Lower />
+        </div>
       </div>
     </>
   )
