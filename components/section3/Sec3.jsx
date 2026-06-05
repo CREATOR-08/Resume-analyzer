@@ -1,51 +1,41 @@
 import React from 'react'
-// credits section
+
 const Sec3 = () => {
   return (
-    <footer className="bg-zinc-950 text-zinc-300 mt-10">
-  <div className="mx-auto max-w-7xl px-6 py-8">
-    
-    {/* container */}
-    <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-      
-      {/* Left */}
-      <div className="text-center md:text-left">
-        <h3 className="text-lg font-semibold text-white">
-          Resume Analyzer
-        </h3>
-        <p className="mt-1 text-sm text-zinc-400">
-          A personal project to analyze and improve resumes.
-        </p>
+    <footer className="bg-zinc-950 border-t border-zinc-800 text-zinc-300">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8">
+          <div className="text-center md:text-left">
+            <h3 className="text-lg font-bold text-white mb-2">Resume Analyzer</h3>
+            <p className="text-sm text-zinc-400 leading-relaxed">A straightforward tool to help you improve resume clarity, formatting, and structure.</p>
+          </div>
+
+          <div className="flex flex-col items-center gap-4">
+            <h4 className="text-sm font-semibold text-white">Contact</h4>
+            <div className="space-y-2 text-sm text-center md:text-left">
+              <a href="mailto:himanshubhagat080104@gmail.com" className="block hover:text-white transition">
+                himanshubhagat080104@gmail.com
+              </a>
+              <a href="https://github.com/CREATOR-08" target="_blank" rel="noopener noreferrer" className="block hover:text-white transition">
+                github.com/CREATOR-08
+              </a>
+            </div>
+          </div>
+
+          <div className="text-center md:text-right">
+            <h4 className="text-sm font-semibold text-white mb-2">Quick Links</h4>
+            <div className="space-y-2 text-sm">
+              <a href="/dashboard" className="block hover:text-white transition">Dashboard</a>
+              <a href="/analyse" className="block hover:text-white transition">Analyse</a>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-zinc-800 pt-6 md:pt-8 text-center text-xs text-zinc-500">
+          <p>© 2025 Resume Analyzer. All rights reserved.</p>
+        </div>
       </div>
-
-      {/* Right */}
-      <div className="flex flex-col items-center gap-2 md:items-end">
-        <a
-          href="mailto:himanshubhagat080104@gmail.com"
-          className="text-sm hover:text-white transition"
-        >
-          himanshubhagat080104@gmail.com
-        </a>
-
-        <a
-          href="https://github.com/CREATOR-08"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm hover:text-white transition"
-        >
-          github.com/CREATOR-08
-        </a>
-      </div>
-
-    </div>
-
-    {/* Bottom line */}
-    <div className="mt-6 border-t border-zinc-800 pt-4 text-center text-xs text-zinc-500">
-      © 2025 Himanshu Bhagat. All rights reserved.
-    </div>
-
-  </div>
-</footer>
+    </footer>
   )
 }
 

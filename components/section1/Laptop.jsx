@@ -2,8 +2,8 @@ import React from 'react'
 
 const Laptop = () => {
   return (
-    <div className="md:absolute md:mt-20 md:right-[-20%] md:w-[700px] hidden md:block">
-              <img src="/lap.png" alt="side" className="w-full h-auto"/>
+    <div className="w-full max-w-sm lg:max-w-lg flex items-center justify-center">
+      <img src="/lap.png" alt="Laptop mockup" className="w-full h-auto object-contain"/>
     </div>
   )
 }

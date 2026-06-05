@@ -1,33 +1,68 @@
+"use client"
 import Link from 'next/link'
-import React from 'react'
-import { HiMenu } from "react-icons/hi";
+import React, { useState } from 'react'
+import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {
-  return (
-    <div className='bg-cyan-950 w-screen h-14 flex  justify-between  '>
+  const [open, setOpen] = useState(false);
+  const navLinks = [
+    { href: '/dashboard', label: 'Dashboard' },
+    { href: '/contacts', label: 'Contacts' },
+    { href: '/analyse', label: 'Analyse' },
+    { href: '/signup', label: 'Sign Up' }
+  ];
 
-      <div className='flex '>
-        <img src='/logo.png' className='md:w-15 md:h-15'></img>
-        <div className='hidden md:block'>
-          <h5>RESUME</h5>
-          <h5 className=''>ANALYSER</h5>
+  return (
+    <nav className='bg-zinc-950 border-b border-zinc-800 sticky top-0 z-50 w-full'>
+      <div className='mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6'>
+        <Link href="/" className='flex items-center gap-2 md:gap-3 hover:opacity-90 transition'>
+          <img src='/logo.png' className='w-10 h-10 md:w-12 md:h-12' alt='Logo' />
+          <div className='hidden md:block text-zinc-100'>
+            <h5 className='text-sm font-bold'>ResumeLens</h5>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className='hidden md:flex gap-8 text-zinc-300 font-medium'>
+          {navLinks.map((link) => (
+            <Link 
+              key={link.href} 
+              href={link.href} 
+              className='text-sm hover:text-white transition-colors duration-200'
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className='md:hidden'>
+          <button 
+            onClick={() => setOpen(!open)} 
+            className='p-2 text-zinc-300 hover:text-white transition'
+            aria-label='Toggle menu'
+          >
+            {open ? <HiX size={24} /> : <HiMenu size={24} />}
+          </button>
+
+          {/* Mobile Menu */}
+          {open && (
+            <div className='absolute top-16 right-0 w-full bg-zinc-900 border-b border-zinc-800 shadow-lg py-2'>
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  onClick={() => setOpen(false)} 
+                  className='block px-4 py-2 text-zinc-300 hover:bg-zinc-800 hover:text-white transition'
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
-
-      <div className=' md:flex md:gap-6 text-stone-500 mr-5 font-semibold mt-3 hidden md:block'>
-        <Link href={"localhost:3000/dashboard"}>Dashboard</Link>
-        <Link href={"localhost:3000/contacts"}>Contacts</Link>
-        <Link href={"localhost:3000/signin"}>Sign In</Link>
-        
-      </div>
-      <div className='block md:hidden h-auto w-50  '>
-        <HiMenu className='h-10 justify-self-end w-15 mr-3 mt-2' />
-        
-      </div>
-      
-
-      
-    </div>
+    </nav>
   )
 }
 
