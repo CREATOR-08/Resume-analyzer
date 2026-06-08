@@ -31,7 +31,7 @@ const Sec3 = () => {
           </div>
         </div>
 
-        <div className="border-t border-zinc-800 pt-6 md:pt-8 text-center text-xs text-zinc-500">
+        <div className="border-t border-zinc-800 pt-2 md:pt-4 text-center text-xs text-zinc-500">
           <p>© 2025 Resume Analyzer. All rights reserved.</p>
         </div>
       </div>

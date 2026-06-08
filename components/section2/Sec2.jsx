@@ -9,17 +9,17 @@ gsap.registerPlugin(ScrollTrigger);
 
 const objectives = [
   {
-    eyebrow: "Objective 01",
+    
     title: "Improve your resume",
     text: "Find weak lines, unclear sections, formatting issues, and missing impact so your resume feels sharper before you send it.",
-    image: "/i1.svg",
+    image: "/img1.svg",
     alt: "Resume improvement preview",
   },
   {
-    eyebrow: "Objective 02",
+    
     title: "Test how compatible you are for the job",
     text: "Compare your resume with the job description and understand whether your skills, keywords, and experience match the role.",
-    image: "/i2.svg",
+    image: "/img2.png",
     alt: "Job description compatibility preview",
   },
 ];
@@ -74,17 +74,14 @@ const Sec2 = () => {
   return (
     <section
       ref={sectionRef}
-      className="w-full overflow-hidden border-y border-white/10 bg-[#080a0f] px-4 sm:px-6 md:px-8 md:py-28"
+      className="w-full overflow-hidden  bg-gray-950 px-4 sm:px-6 md:px-8 md:pr-28 md:pl-28 md:pb-28 py-16 md:py-32"
     >
-      <div className="mx-auto max-w-7xl">
-        <div className="objective-heading max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-300">
-            What you can do
-          </p>
-          <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
-            Two simple ways to make your next application stronger.
+      <div className="mx-auto max-w-full">
+        
+          <h2 className="mt-4 text-2xl text-center text-zinc-200 hover:scale-102 font-semibold leading-tight tracking-tight text-white md:text-4xl">
+            MAKE YOUR RESUME(FIRST IMPRESSION) STAND OUT 
           </h2>
-        </div>
+       
 
         <div className="mt-14 space-y-16 md:mt-20 md:space-y-24">
           {objectives.map((objective, index) => (

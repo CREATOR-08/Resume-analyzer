@@ -28,13 +28,6 @@ const Sec1 = ({ initialUser = null }) => {
           </div>
         </div>
       </div>
-
-      {/* LOWER TEXT */}
-      <div className='w-full px-4 sm:px-6 md:px-8 py-12 bg-zinc-900/30'>
-        <div className='mx-auto max-w-7xl'>
-          
-        </div>
-      </div>
     </>
   )
 }

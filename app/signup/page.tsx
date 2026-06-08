@@ -4,6 +4,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/logged'
+import ResumeLoading from '@/components/ResumeLoading'
 
 export default function Signup() {
   const router = useRouter()
@@ -13,9 +14,38 @@ export default function Signup() {
   const [created, setCreated] = useState(false)
   const setUser = useAuthStore((state) => state.setUser)
 
-  const handleOAuth = (provider: 'google' | 'github') => {
-    // Redirect to better-auth authorize endpoint handled by server
-    window.location.href = `/api/auth/authorize/${provider}`
+  const handleOAuth = async (provider: 'google' | 'github') => {
+    setError(null)
+    setSuccess(null)
+    setLoading(true)
+
+    try {
+      const res = await fetch('/api/auth/sign-in/social', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setError(data?.error || 'OAuth sign in failed')
+        setLoading(false)
+        return
+      }
+
+      if (data.url) {
+        window.location.href = data.url
+        return
+      }
+
+      setError('Unexpected OAuth response')
+    } catch (err) {
+      console.error(err)
+      setError('Unexpected error during OAuth sign in')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,11 +88,15 @@ export default function Signup() {
     }
   }
 
+  if (loading) {
+    return <ResumeLoading hideStatusBar />
+  }
+
   return (
     <div className="min-h-screen bg-zinc-950 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <img src="/logo.png" alt="Logo" className="mx-auto w-16 h-16" />
+          <img src="/loginimg.png" alt="Login illustration" className="mx-auto w-full max-w-xs rounded-3xl shadow-lg" />
           <h2 className="mt-6 text-3xl font-extrabold text-white">Create your account</h2>
           <p className="mt-2 text-sm text-zinc-400">Sign up to analyze resumes and save your results.</p>
         </div>
@@ -123,7 +157,18 @@ export default function Signup() {
               <input id="password" name="password" type="password" required minLength={6} className="mt-2 w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Create a password" />
             </div>
 
-            {error && <p className="text-sm text-red-400">{error}</p>}
+            {error && (
+              <div className="text-sm text-red-400 space-y-2">
+                <p>{error}</p>
+                {error.includes("already have an account") && (
+                  <p>
+                    <Link href="/login" className="text-blue-400 hover:underline font-semibold">
+                      Go to login →
+                    </Link>
+                  </p>
+                )}
+              </div>
+            )}
             {success && <p className="text-sm text-green-400">{success}</p>}
 
             <div>

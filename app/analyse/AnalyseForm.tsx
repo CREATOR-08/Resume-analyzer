@@ -33,6 +33,7 @@ export default function AnalyseForm() {
       await fetch("/api/analysis", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           report: result.report,
           role,

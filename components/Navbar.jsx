@@ -52,7 +52,7 @@ if (pathname !== "/") {
             <Link 
               key={link.href} 
               href={link.href} 
-              className={`text-sm transition-colors duration-200 hover:scale-101 ${pathname === link.href ? 'text-white' : 'hover:text-white'}`}
+              className={`text-sm transition-colors duration-200 hover:scale-101 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${pathname === link.href ? 'text-white' : 'hover:text-white'}`}
             >
               {link.label}
             </Link>
@@ -63,7 +63,7 @@ if (pathname !== "/") {
         <div className='md:hidden'>
           <button 
             onClick={() => setOpen(!open)} 
-            className='p-2 text-zinc-300 hover:text-white transition'
+            className='p-2 rounded-md text-zinc-300 hover:text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950'
             aria-label='Toggle menu'
           >
             {open ? <HiX size={24} /> : <HiMenu size={24} />}
@@ -77,7 +77,7 @@ if (pathname !== "/") {
                   key={link.href} 
                   href={link.href} 
                   onClick={() => setOpen(false)} 
-                  className='block px-4 py-2 text-zinc-300 hover:bg-zinc-800 hover:text-white transition'
+                  className='block px-4 py-2 text-zinc-300 hover:bg-zinc-800 hover:text-white transition focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950'
                 >
                   {link.label}
                 </Link>

@@ -1,15 +1,9 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
-
+import Link from "next/link";
+import React, { useMemo } from "react";
 
 import { useAnalysisStore } from "@/store/useAnalysisStore";
-import { types } from "util";
-const loadingQuotes = [
-  "Resume is the face of your work.",
-  "First impression is the last impression, and the resume is the one before the first impression.",
-  "A clear resume tells your story before you enter the room.",
-];
 
 function scoreTone(score = 0) {
   if (score >= 85) return "text-emerald-300";
@@ -99,44 +93,37 @@ function BarChart({ title, data, suffix = "%" }:{title:string;data:{ name: strin
   );
 }
 
-function LoadingOverlay() {
-  const [quoteIndex, setQuoteIndex] = useState(0);
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setQuoteIndex((current) => (current + 1) % loadingQuotes.length);
-    }, 2800);
-
-    return () => window.clearInterval(intervalId);
-  }, []);
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 px-6 backdrop-blur-md">
-      <div className="max-w-2xl text-center">
-        <div className="mx-auto mb-8 h-14 w-14 rounded-full border-4 border-slate-700 border-t-cyan-300 animate-spin" />
-        <p className="text-2xl font-semibold leading-snug text-white sm:text-4xl">
-          {loadingQuotes[quoteIndex]}
-        </p>
-        <p className="mt-5 text-sm uppercase tracking-[0.22em] text-slate-400">Preparing match summary</p>
-      </div>
-    </div>
-  );
-}
-
-export default function ResumeMatchSummary({ report, loading = false }:{report: any | null; loading: boolean}) {
+export default function ResumeMatchSummary() {
   const result = useAnalysisStore((state) => state.result);
-
-  const data = result;
+  const data = result ?? {};
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
-  const requiredSkills = data.skills?.filter((item:any) => item.requirement === "required") || [];
-  const preferredSkills = data.skills?.filter((item:any) => item.requirement === "preferred") || [];
+  const requiredSkills = (data.skills ?? []).filter((item) => item.requirement === "required");
+  const preferredSkills = (data.skills ?? []).filter((item) => item.requirement === "preferred");
+
+  if (!result) {
+    return (
+      <main className="min-h-screen bg-slate-950 text-slate-100">
+        <div className="mx-auto max-w-3xl px-4 py-20 text-center">
+          <p className="text-sm uppercase tracking-[0.28em] text-cyan-300">No analysis loaded</p>
+          <h1 className="mt-6 text-4xl font-semibold text-white">Resume analysis not yet available</h1>
+          <p className="mt-4 text-slate-400">
+            Start an analysis to generate your report and save the PDF to Supabase.
+          </p>
+          <Link
+            href="/analyse"
+            className="mt-8 inline-flex rounded-full bg-cyan-400 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300"
+          >
+            Start analysis
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      {loading && <LoadingOverlay />}
-
-      <div className={`mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 ${loading ? "blur-sm" : ""}`}>
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <header className="flex flex-col gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-300">AI resume assessment</p>
@@ -168,7 +155,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.strengths?.map((item:any) => (
+              {data.strengths?.map((item) => (
                 <li key={item} className="border-l-2 border-emerald-300/60 pl-3">{item}</li>
               ))}
             </ul>
@@ -177,7 +164,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-rose-300">Concerns</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.concerns?.map((item:any) => (
+              {data.concerns?.map((item) => (
                 <li key={item} className="border-l-2 border-rose-300/60 pl-3">{item}</li>
               ))}
             </ul>
@@ -213,7 +200,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
-                {data.skills?.map((item:any) => (
+                {data.skills?.map((item) => (
                   <tr key={item.skill} className="align-top">
                     <td className="py-4 pr-4 font-medium text-white">{item.skill}</td>
                     <td className="py-4 pr-4 capitalize text-slate-300">{item.requirement}</td>
@@ -235,7 +222,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
             <div className="mt-4 space-y-4">
-              {data.recommendations?.map((item:any) => (
+              {data.recommendations?.map((item) => (
                 <article key={`${item.priority}-${item.area}`} className="rounded-md border border-slate-800 bg-slate-950/70 p-4">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="text-base font-semibold text-white">{item.area}</span>

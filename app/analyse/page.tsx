@@ -3,14 +3,15 @@
 import { useState } from "react"
 import bridge from "./bridge"
 import { useRouter } from "next/navigation";
+import ResumeLoading from "@/components/ResumeLoading";
 
 export default function AnalysePage() {
-const router = useRouter();
-const [resumeFile, setResumeFile] = useState<File | null>(null)
-const [role, setRole] = useState("")
-const [jobDescription, setJobDescription] = useState("")
-const [jdFile, setJdFile] = useState<File | null>(null)
-const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [role, setRole] = useState("")
+  const [jobDescription, setJobDescription] = useState("")
+  const [jdFile, setJdFile] = useState<File | null>(null)
+  const [loading, setLoading] = useState(false)
 
 const handleSubmit = async (e: React.FormEvent) => {
 
@@ -63,6 +64,10 @@ const handleSubmit = async (e: React.FormEvent) => {
     setLoading(false);
   }
 };
+
+  if (loading) {
+    return <ResumeLoading hideStatusBar />;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
