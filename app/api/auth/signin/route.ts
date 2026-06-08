@@ -1,6 +1,6 @@
-import { auth } from "@/lib/auth";
 import prisma from '@/lib/prisma';
 import { verifyPassword } from '@/lib/hash';
+import { createSession } from "@/lib/session";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -47,6 +47,8 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );
     }
+
+    await createSession(user.id);
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;

@@ -1,11 +1,59 @@
 "use client"
 
+import { useAuthStore } from '@/store/logged';
 import Link from 'next/link'
+
+import { useRouter } from "next/navigation";
 import { useState } from 'react'
 
+
+
 export default function LoginPage() {
-  const [name, setName] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const setLogged = useAuthStore((state) => state.setLogged);
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
+  const handleLogin = async () => {
+  try {
+    setLoading(true);
+    setError("");
+
+    const payload = {
+      email,
+      password,
+    };
+
+    const res = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      setError(data?.error || "Login failed");
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    setLogged(true);
+    setUser(data.user);
+    router.push("/dashboard");
+  } catch (err) {
+    console.error(err);
+    setError("Unexpected error");
+    setLoading(false);
+  }
+};
+
+
 
   return (
     <main className="min-h-screen bg-zinc-950 text-white px-4 py-10 md:px-12">
@@ -17,12 +65,12 @@ export default function LoginPage() {
               Sign in to view your analysis, resume score, and guided next steps.
             </p>
             <label className="block text-sm font-medium text-zinc-300 mb-2">
-              Name
+              email
               <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Enter your email"
                 className="mt-2 w-full rounded-3xl border border-zinc-700 bg-zinc-950/90 px-4 py-3 text-white outline-none focus:border-white focus:ring-2 focus:ring-white/20"
               />
             </label>
@@ -39,8 +87,10 @@ export default function LoginPage() {
             <button
               type="button"
               className="mt-8 w-full rounded-3xl bg-white px-5 py-4 text-lg font-semibold text-zinc-950 transition hover:bg-zinc-200"
+              onClick={handleLogin}
+              disabled={!email || !password}
             >
-              Sign In
+              Log In
             </button>
             <div className="mt-6 text-center text-zinc-400">
               <p>Don&apos;t have an account?</p>

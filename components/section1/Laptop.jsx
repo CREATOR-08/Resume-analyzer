@@ -1,11 +1,19 @@
-import React from 'react'
+import React from "react";
 
 const Laptop = () => {
   return (
-    <div className="w-full max-w-sm lg:max-w-lg flex items-center justify-center">
-      <img src="/lap.png" alt="Laptop mockup" className="w-full h-auto object-contain"/>
-    </div>
-  )
-}
+    
+      <img
+        src="/lap.png"
+        alt="Laptop mockup"
+        className="
+          
+          mr-[-300px]
+          
+        "
+      />
+    
+  );
+};
 
-export default Laptop
+export default Laptop;

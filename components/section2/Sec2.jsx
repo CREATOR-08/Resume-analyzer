@@ -1,139 +1,128 @@
 "use client";
 
-import React from 'react'
-
-
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const objectives = [
+  {
+    eyebrow: "Objective 01",
+    title: "Improve your resume",
+    text: "Find weak lines, unclear sections, formatting issues, and missing impact so your resume feels sharper before you send it.",
+    image: "/i1.svg",
+    alt: "Resume improvement preview",
+  },
+  {
+    eyebrow: "Objective 02",
+    title: "Test how compatible you are for the job",
+    text: "Compare your resume with the job description and understand whether your skills, keywords, and experience match the role.",
+    image: "/i2.svg",
+    alt: "Job description compatibility preview",
+  },
+];
 
 const Sec2 = () => {
-    const leftRef = useRef(null);
-  const rightRef = useRef(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
-    // LEFT → comes from extreme left
-    gsap.from(leftRef.current, {
-      x: "-100vw",
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: leftRef.current,
-        start: "top 85%",
-        end: "top 45%",
-        scrub: false,
-      },
-    });
+    const ctx = gsap.context(() => {
+      gsap.from(".objective-heading > *", {
+        y: 24,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 74%",
+        },
+      });
 
-    // RIGHT → comes from extreme right
-    gsap.from(rightRef.current, {
-      x: "100vw",
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: rightRef.current,
-        start: "top 85%",
-        end: "top 45%",
-        scrub: false,
-      },
-    });
+      gsap.utils.toArray(".objective-row").forEach((row) => {
+        gsap.from(row.querySelector(".objective-image"), {
+          y: 42,
+          opacity: 0,
+          scale: 0.96,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 78%",
+          },
+        });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-    };
+        gsap.from(row.querySelectorAll(".objective-copy > *"), {
+          y: 26,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 78%",
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
+
   return (
-    <section className='w-full py-16 md:py-24 px-4 sm:px-6 md:px-8 bg-zinc-900/30'>
-      <div className='w-full flex flex-col text-zinc-300 gap-16 md:gap-24'>
-        <div className='mx-auto w-full max-w-7xl flex flex-col gap-6 md:gap-8 items-center md:grid md:grid-cols-2'>
-          <img src='/img1.png' className='w-full max-w-xs md:max-w-sm object-contain' alt='Resume illustration' />
-          <div ref={rightRef} className='w-full'>
-            <h1 className='text-2xl md:text-3xl text-white text-center md:text-left font-semibold leading-tight'>A clear and honest resume review</h1>
-            <p className='mt-4 text-center md:text-left text-zinc-300 leading-relaxed'>This tool helps you identify common resume issues such as inconsistent formatting, unclear job descriptions, and weak bullet-point impact. It is built to support your own editing process, not replace a professional review.</p>
-          </div>
+    <section
+      ref={sectionRef}
+      className="w-full overflow-hidden border-y border-white/10 bg-[#080a0f] px-4 sm:px-6 md:px-8 md:py-28"
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="objective-heading max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sky-300">
+            What you can do
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
+            Two simple ways to make your next application stronger.
+          </h2>
         </div>
-        <div className='mx-auto w-full max-w-7xl flex flex-col gap-6 md:gap-8 items-center md:grid md:grid-cols-2'>
-          <div ref={leftRef} className='w-full md:order-2'>
-            <h1 className='text-2xl md:text-3xl text-white text-center md:text-left font-semibold leading-tight'>Focus on practical improvements</h1>
-            <p className='mt-4 text-center md:text-left text-zinc-300 leading-relaxed'>The feedback is designed to help you tighten your wording, make your achievements easier to scan, and reduce resume clutter. It is a starting point for revision, with the goal of making your resume more consistent and readable.</p>
-          </div>
-          <img src='/img1.png' className='w-full max-w-xs md:max-w-sm object-contain md:order-1' alt='Resume illustration' />
+
+        <div className="mt-14 space-y-16 md:mt-20 md:space-y-24">
+          {objectives.map((objective, index) => (
+            <div
+              key={objective.title}
+              className="objective-row grid items-center gap-8 md:grid-cols-2 md:gap-14"
+            >
+              <div
+                className={`objective-image rounded-lg border border-white/10 bg-white/[0.03] p-5 shadow-2xl shadow-black/30 ${
+                  index % 2 === 1 ? "md:order-2" : ""
+                }`}
+              >
+                <Image
+                  src={objective.image}
+                  alt={objective.alt}
+                  width={720}
+                  height={540}
+                  className="mx-auto aspect-[4/3] w-full max-w-lg object-contain"
+                />
+              </div>
+
+              <div className="objective-copy">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                  {objective.eyebrow}
+                </p>
+                <h3 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-5xl">
+                  {objective.title}
+                </h3>
+                <p className="mt-5 max-w-xl text-base leading-8 text-zinc-400 md:text-lg">
+                  {objective.text}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Sec2
-// </div>
-//       <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>Designed by hiring managers</h1>
-//           <h5>Our online resume grader provides better resume feedback than most so-called 'professional' reviewers out there, who often give outdated, wrong or non-actionable advice and charge hundreds of dollars.
-
-// The feedback in your resume review has been curated by current hiring managers and recruiters at companies like Google, McKinsey and Goldman Sachs.
-
-// We know this works.</h5>
-//         </div>
-        
-//       </div>
-//       <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>Smart resume suggestions and examples from top resumes</h1>
-//           <h5>We recognise how tough it can be to put your experiences into concise, effective lines.
-
-// This is why we even give you handpicked resume lines and metrics that top candidates have used on their resumes.
-
-// Stuck on how to describe your experiences? Our AI features transform your old lines into polished, professional bullet points. It's like having a resume expert by your side, guiding you on how to best present your skills and achievements.
-
-// Use these tools as inspiration or let the AI do the heavy lifting when you're unsure how to phrase your accomplishments.</h5>
-//         </div>
-        
-//       </div>
-//       <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>Improve your resume's score</h1>
-//           <h5>We use Artificial Intelligence to analyze and benchmark your resume and generate a detailed assessment and score based on key evaluation criteria such as Impact, Brevity and Style. Our criteria are based on key checks recruiters look for.
-
-// Incorporate the feedback we give you to improve your resume's score and your chances of getting that interview.</h5>
-//         </div>
-      
-//     </div>
-//     <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>What our resume checker looks for</h1>
-//           <h5>Here are some of the things the checker examines your resume for:
-
-// - ATS resume compatibility: Score My Resume analyzes your resume's template and checks whether it is compatible with ATS (resume scanners).
-// - Resume and bullet point length: Brevity is key when it comes to a resume.
-// - Resume action verbs: Recruiters and resume reviewers are looking for evidence of impact on your resume. Score My Resume checks to make sure that you've used strong action verbs as well as other indicators of a strong impact-oriented resume.
-// - Plus over 25 additional free resume checks. See our resume checklist for examples of additional checks recruiters look for.</h5>
-//         </div>
-      
-//     </div>
-//     <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>Personalized, actionable advice</h1>
-//           <h5>Most advice online is terribly generic and unhelpful, saying, “Be impactful!” or “Don’t be vague” (how ironic). These are statements that only become helpful when they are explained in context of your resume.
-
-// Unlike any other tool, our resume checker identifies gaps on your resume and gives you a detailed assessment of your resume, which contains tailored advice on how to improve it, backed up with insights from recruiters and examples from other candidates. Plus, you'll also get rewritten lines that you can use on your resume.</h5>
-//         </div>
-      
-//     </div>
-//     <div className='flex flex-col gap-3 items-center md:grid md:grid-col-2 mt-10'>
-//         <img src='/green.png ' className='h-50 w-50'></img>
-//         <div>
-//           <h1 className='text-2xl text-white'>How does our resume checker work?</h1>
-//           <h5>To create this product, we spent thousands of hours speaking with recruiters and hiring managers at top companies like Google and McKinsey. We've found out exactly what they look for when they review resumes. We then spent the next two years working with data scientists and software engineers to create this resume checker.
-// It uses machine learning and artificial intelligence to scan your resume for the most important elements resume reviewers and hiring managers specifically keep an eye out for.</h5>
-//         </div>
+export default Sec2;

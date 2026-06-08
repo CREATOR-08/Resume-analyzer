@@ -6,76 +6,30 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+
+  
 }
 
 
 model User {
-  id            String           @id @default(cuid())
-  name          String?
-  email         String           @unique
-  password      String?
-  image         String?
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id        String @id @default(cuid())
+  name      String?
+  email     String @unique
+  password  String?
 
-  resumes       Resume[]
-  analyses      ResumeAnalysis[]
+  analyses  Analysis[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Resume {
-  id            String           @id @default(cuid())
-  title         String
-  fileUrl       String
-  fileName      String
-  uploadedAt    DateTime         @default(now())
+model Analysis {
+  id        String @id @default(cuid())
+  pdfUrl    String
+  score     Int
 
-  userId        String
-  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
 
-  analysis      ResumeAnalysis?
-}
-
-model ResumeAnalysis {
-  id                String      @id @default(cuid())
-
-  overallScore      Int
-  atsScore          Int
-  grammarScore      Int
-  keywordScore      Int
-
-  strengths         String[]
-  weaknesses        String[]
-  suggestions       String[]
-
-  extractedName     String?
-  extractedEmail    String?
-  extractedPhone    String?
-
-  createdAt         DateTime    @default(now())
-
-  userId            String
-  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  resumeId          String      @unique
-  resume            Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
-
-  skills            Skill[]
-  projects          Project[]
-}
-
-model Skill {
-  id            String            @id @default(cuid())
-  name          String
-
-  analysisId    String
-  analysis      ResumeAnalysis    @relation(fields: [analysisId], references: [id], onDelete: Cascade)
-}
-
-model Project {
-  id            String            @id @default(cuid())
-  title         String
-  description   String?
-
-  analysisId    String
-  analysis      ResumeAnalysis    @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

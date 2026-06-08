@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { hashPassword } from '@/lib/hash';
+import { createSession } from '@/lib/session';
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -45,6 +46,8 @@ export async function POST(req: NextRequest) {
         password: hashedPassword,
       },
     });
+
+    await createSession(user.id);
 
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;

@@ -3,6 +3,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuthStore } from '@/store/logged'
 
 export default function Signup() {
   const router = useRouter()
@@ -10,6 +11,7 @@ export default function Signup() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [created, setCreated] = useState(false)
+  const setUser = useAuthStore((state) => state.setUser)
 
   const handleOAuth = (provider: 'google' | 'github') => {
     // Redirect to better-auth authorize endpoint handled by server
@@ -45,6 +47,7 @@ export default function Signup() {
       }
 
       setSuccess('Account created — redirecting to homepage...')
+      setUser(data.user)
       setCreated(true)
       setLoading(false)
       setTimeout(() => router.push('/'), 900)
