@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-
-
 import { useAnalysisStore } from "@/store/useAnalysisStore";
-import { types } from "util";
+
 const loadingQuotes = [
   "Resume is the face of your work.",
   "First impression is the last impression, and the resume is the one before the first impression.",
@@ -35,7 +33,7 @@ function normalizeEntries(source = {}) {
   }));
 }
 
-function DonutScore({ score }:{ score: number }) {
+function DonutScore({ score }: { score: number }) {
   const radius = 58;
   const stroke = 12;
   const circumference = 2 * Math.PI * radius;
@@ -70,7 +68,15 @@ function DonutScore({ score }:{ score: number }) {
   );
 }
 
-function BarChart({ title, data, suffix = "%" }:{title:string;data:{ name: string; value: number }[];suffix?: string;}) {
+function BarChart({
+  title,
+  data,
+  suffix = "%",
+}: {
+  title: string;
+  data: { name: string; value: number }[];
+  suffix?: string;
+}) {
   const maxValue = Math.max(100, ...data.map((item) => item.value));
 
   return (
@@ -123,14 +129,53 @@ function LoadingOverlay() {
   );
 }
 
-export default function ResumeMatchSummary({ report, loading = false }:{report: any | null; loading: boolean}) {
-  const result = useAnalysisStore((state) => state.result);
+interface SkillItem {
+  skill: string;
+  requirement: "required" | "preferred";
+  match: "strong" | "partial" | "missing";
+  score: number;
+  gap?: string;
+}
+
+interface RecommendationItem {
+  priority: string;
+  area: string;
+  action: string;
+  suggested_project?: string;
+}
+
+interface ReportData {
+  overall_score: number;
+  role_summary: string;
+  provider: string;
+  model: string;
+  category_scores: Record<string, number>;
+  effective_weights: Record<string, number>;
+  strengths: string[];
+  concerns: string[];
+  final_summary: string;
+  skills: SkillItem[];
+  recommendations: RecommendationItem[];
+  experience?: { score: number };
+  projects?: { score: number };
+  education?: { score: number };
+  disclaimer: string;
+}
+
+export default function ResumeMatchSummary({
+  report,
+  loading = false,
+}: {
+  report: ReportData | null;
+  loading: boolean;
+}) {
+  const result = useAnalysisStore((state) => state.result) as ReportData;
 
   const data = result;
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
-  const requiredSkills = data.skills?.filter((item:any) => item.requirement === "required") || [];
-  const preferredSkills = data.skills?.filter((item:any) => item.requirement === "preferred") || [];
+  const requiredSkills = data.skills?.filter((item) => item.requirement === "required") || [];
+  const preferredSkills = data.skills?.filter((item) => item.requirement === "preferred") || [];
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -168,8 +213,10 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.strengths?.map((item:any) => (
-                <li key={item} className="border-l-2 border-emerald-300/60 pl-3">{item}</li>
+              {data.strengths?.map((item) => (
+                <li key={item} className="border-l-2 border-emerald-300/60 pl-3">
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
@@ -177,8 +224,10 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-rose-300">Concerns</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.concerns?.map((item:any) => (
-                <li key={item} className="border-l-2 border-rose-300/60 pl-3">{item}</li>
+              {data.concerns?.map((item) => (
+                <li key={item} className="border-l-2 border-rose-300/60 pl-3">
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
@@ -213,7 +262,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
-                {data.skills?.map((item:any) => (
+                {data.skills?.map((item) => (
                   <tr key={item.skill} className="align-top">
                     <td className="py-4 pr-4 font-medium text-white">{item.skill}</td>
                     <td className="py-4 pr-4 capitalize text-slate-300">{item.requirement}</td>
@@ -235,7 +284,7 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
             <div className="mt-4 space-y-4">
-              {data.recommendations?.map((item:any) => (
+              {data.recommendations?.map((item) => (
                 <article key={`${item.priority}-${item.area}`} className="rounded-md border border-slate-800 bg-slate-950/70 p-4">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="text-base font-semibold text-white">{item.area}</span>
@@ -257,15 +306,15 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
             <dl className="mt-4 space-y-4 text-sm">
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-slate-400">Experience</dt>
-                <dd className={scoreTone(data.experience?.score)}>{data.experience?.score || 0}%</dd>
+                <dd className={scoreTone(data.experience?.score || 0)}>{data.experience?.score || 0}%</dd>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-slate-400">Projects</dt>
-                <dd className={scoreTone(data.projects?.score)}>{data.projects?.score || 0}%</dd>
+                <dd className={scoreTone(data.projects?.score || 0)}>{data.projects?.score || 0}%</dd>
               </div>
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-slate-400">Education</dt>
-                <dd className={scoreTone(data.education?.score)}>{data.education?.score || 0}%</dd>
+                <dd className={scoreTone(data.education?.score || 0)}>{data.education?.score || 0}%</dd>
               </div>
             </dl>
             <p className="mt-6 border-t border-slate-800 pt-4 text-xs leading-5 text-slate-500">{data.disclaimer}</p>
@@ -275,6 +324,3 @@ export default function ResumeMatchSummary({ report, loading = false }:{report: 
     </main>
   );
 }
-
-
-
