@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
 import puppeteer from "puppeteer";
 import { NextRequest, NextResponse } from "next/server";
-
+import { ratelimit } from "@/lib/ratelimit";
 export const runtime = "nodejs";
 
 type StringRecord = Record<string, unknown>;
@@ -338,7 +338,7 @@ async function createAnalysisPdf(html: string) {
     const page = await browser.newPage();
 
     await page.setContent(html, {
-      waitUntil: "networkidle0",
+      waitUntil: "load",
     });
 
     return Buffer.from(
@@ -383,7 +383,7 @@ async function uploadPdfToSupabase(pdf: Buffer, path: string) {
       "Content-Type": "application/pdf",
       "x-upsert": "true",
     },
-    body: pdf,
+    body: new Uint8Array(pdf),
   });
 
   if (!response.ok) {
@@ -401,13 +401,20 @@ async function uploadPdfToSupabase(pdf: Buffer, path: string) {
 }
 
 export async function POST(req: NextRequest) {
+  const user = await getCurrentUser();
+  const userIdentifier = user ? `user:${user.id}` : "anonymous";
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { success } = await ratelimit.limit(userIdentifier);
+
+  if (!success) {
+    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
-    const user = await getCurrentUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const body = await req.json();
     const report = asRecord(body.report);
     const role = asString(body.role);

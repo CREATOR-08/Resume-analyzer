@@ -2,6 +2,13 @@
 import { useAuthStore } from '@/store/logged'
 import Link from 'next/link'
 
+/**
+ * @typedef {{ id: string; name: string | null; email: string | null } | null} SectionInitialUser
+ */
+
+/**
+ * @param {{ initialUser?: SectionInitialUser }} props
+ */
 const Left = ({ initialUser = null }) => {
   const storeLogged = useAuthStore((state) => state.logged)
   const logged = storeLogged || Boolean(initialUser)

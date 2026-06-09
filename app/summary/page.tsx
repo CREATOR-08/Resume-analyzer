@@ -11,8 +11,8 @@ function scoreTone(score = 0) {
   if (score >= 45) return "text-amber-300";
   return "text-rose-300";
 }
-
-function matchBadge(match: "strong" | "partial" | "missing") {
+type MatchType = "strong" | "partial" | "missing";
+function matchBadge(match:MatchType) {
   const styles = {
     strong: "bg-emerald-500/15 text-emerald-200 ring-emerald-400/25",
     partial: "bg-amber-500/15 text-amber-200 ring-amber-400/25",
@@ -28,6 +28,14 @@ function normalizeEntries(source = {}) {
     value: Number(value) || 0,
   }));
 }
+
+type SkillEntry = {
+  skill: string;
+  requirement: string;
+  match: MatchType;
+  score: number;
+  gap: string;
+};
 
 function DonutScore({ score }:{ score: number }) {
   const radius = 58;
@@ -98,8 +106,9 @@ export default function ResumeMatchSummary() {
   const data = result ?? {};
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
-  const requiredSkills = (data.skills ?? []).filter((item) => item.requirement === "required");
-  const preferredSkills = (data.skills ?? []).filter((item) => item.requirement === "preferred");
+  const skills = (data.skills ?? []) as SkillEntry[];
+  const requiredSkills = skills.filter((item) => item.requirement === "required");
+  const preferredSkills = skills.filter((item) => item.requirement === "preferred");
 
   if (!result) {
     return (
@@ -155,7 +164,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.strengths?.map((item) => (
+              {data.strengths?.map((item: string) => (
                 <li key={item} className="border-l-2 border-emerald-300/60 pl-3">{item}</li>
               ))}
             </ul>
@@ -164,7 +173,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-rose-300">Concerns</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.concerns?.map((item) => (
+              {data.concerns?.map((item: string) => (
                 <li key={item} className="border-l-2 border-rose-300/60 pl-3">{item}</li>
               ))}
             </ul>
@@ -200,7 +209,7 @@ export default function ResumeMatchSummary() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
-                {data.skills?.map((item) => (
+                {skills.map((item) => (
                   <tr key={item.skill} className="align-top">
                     <td className="py-4 pr-4 font-medium text-white">{item.skill}</td>
                     <td className="py-4 pr-4 capitalize text-slate-300">{item.requirement}</td>
@@ -222,7 +231,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
             <div className="mt-4 space-y-4">
-              {data.recommendations?.map((item) => (
+              {data.recommendations?.map((item: { priority: string; area: string; action: string; suggested_project: string }) => (
                 <article key={`${item.priority}-${item.area}`} className="rounded-md border border-slate-800 bg-slate-950/70 p-4">
                   <div className="flex flex-wrap items-center gap-3">
                     <span className="text-base font-semibold text-white">{item.area}</span>

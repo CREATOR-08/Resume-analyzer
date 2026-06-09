@@ -4,6 +4,13 @@ import Left from './Left';
 import Laptop from './Laptop';
 import Hero from './Hero';
 
+/**
+ * @typedef {{ id: string; name: string | null; email: string | null } | null} SectionInitialUser
+ */
+
+/**
+ * @param {{ initialUser?: SectionInitialUser }} props
+ */
 const Sec1 = ({ initialUser = null }) => {
   return (
     <>

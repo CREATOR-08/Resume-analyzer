@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/logged'
 import ResumeLoading from '@/components/ResumeLoading'
-
+import Link from 'next/link'
 export default function Signup() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)

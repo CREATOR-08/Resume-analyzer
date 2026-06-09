@@ -5,6 +5,13 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from '@/store/logged';
 
+/**
+ * @typedef {{ id: string; name: string | null; email: string | null } | null} NavbarInitialUser
+ */
+
+/**
+ * @param {{ initialUser?: NavbarInitialUser }} props
+ */
 
 const Navbar = ({ initialUser = null }) => {
   const pathname = usePathname();
