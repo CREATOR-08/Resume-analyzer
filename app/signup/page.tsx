@@ -93,15 +93,25 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="text-center">
-          <img src="/loginimg.png" alt="Login illustration" className="mx-auto w-full max-w-xs rounded-3xl shadow-lg" />
-          <h2 className="mt-6 text-3xl font-extrabold text-white">Create your account</h2>
-          <p className="mt-2 text-sm text-zinc-400">Sign up to analyze resumes and save your results.</p>
+    <div className="min-h-screen bg-zinc-950 px-4 py-10 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="order-2 lg:order-1">
+          <div className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-900/60 shadow-2xl shadow-black/30">
+            <img
+              src="/loginimg.png"
+              alt="Signup illustration"
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
 
-        <div className="rounded-2xl bg-zinc-900 p-6 shadow-lg ring-1 ring-white/6">
+        <div className="order-1 lg:order-2">
+          <div className="mb-6 lg:mb-8">
+            <h2 className="text-3xl font-extrabold text-white sm:text-4xl">Create your account</h2>
+            <p className="mt-2 text-sm text-zinc-400">Sign up to analyze resumes and save your results.</p>
+          </div>
+
+          <div className="rounded-[2rem] border border-zinc-800 bg-zinc-900 p-6 shadow-2xl shadow-black/20 sm:p-8">
           <div className="space-y-4">
             <button
               type="button"
@@ -181,6 +191,7 @@ export default function Signup() {
           <p className="mt-4 text-center text-sm text-zinc-500">
             By creating an account, you agree to our <a className="text-blue-400 hover:underline" href="#">Terms</a> and <a className="text-blue-400 hover:underline" href="#">Privacy Policy</a>.
           </p>
+          </div>
         </div>
 
         {!created && (
