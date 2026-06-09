@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import { createHmac, timingSafeEqual } from "crypto";
+import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 const SESSION_COOKIE = "resume_lens_session";
@@ -92,7 +94,10 @@ export async function getCurrentUser() {
   const session = await getSessionPayload();
 
   if (!session) {
-    return null;
+    const headerStore = await headers();
+    const betterAuthSession = await auth.api.getSession({ headers: headerStore });
+
+    return betterAuthSession?.user ?? null;
   }
 
   return prisma.user.findUnique({

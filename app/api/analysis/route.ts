@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/session";
 import puppeteer from "puppeteer";
 import { NextRequest, NextResponse } from "next/server";
 import { ratelimit } from "@/lib/ratelimit";
+import { sendReportEmail } from "@/lib/sendReportEmail";
 export const runtime = "nodejs";
 
 type StringRecord = Record<string, unknown>;
@@ -438,6 +439,15 @@ export async function POST(req: NextRequest) {
     });
     const pdf = await createAnalysisPdf(html);
     const pdfUrl = await uploadPdfToSupabase(pdf, pdfPath);
+    try {
+      await sendReportEmail({
+        email: user.email,
+        name: user.name || undefined,
+        pdfUrl,
+      });
+    } catch (err) {
+      console.error("Email failed:", err);
+    }
     const analysis = await prisma.analysis.create({
       data: {
         pdfUrl,
