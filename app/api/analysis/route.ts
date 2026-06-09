@@ -331,7 +331,7 @@ function buildAnalysisHtml({
 async function createAnalysisPdf(html: string) {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (await puppeteer.executablePath()),
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
