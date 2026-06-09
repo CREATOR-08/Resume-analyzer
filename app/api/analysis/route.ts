@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import { NextRequest, NextResponse } from "next/server";
 import { ratelimit } from "@/lib/ratelimit";
 import { sendReportEmail } from "@/lib/sendReportEmail";
@@ -330,9 +331,10 @@ function buildAnalysisHtml({
 
 async function createAnalysisPdf(html: string) {
   const browser = await puppeteer.launch({
+    args: chromium.args,
+
+    executablePath: await chromium.executablePath(),
     headless: true,
-    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || (await puppeteer.executablePath()),
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   try {
