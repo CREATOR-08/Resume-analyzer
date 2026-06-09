@@ -191,14 +191,15 @@ export default function Signup() {
           <p className="mt-4 text-center text-sm text-zinc-500">
             By creating an account, you agree to our <a className="text-blue-400 hover:underline" href="#">Terms</a> and <a className="text-blue-400 hover:underline" href="#">Privacy Policy</a>.
           </p>
-          </div>
-        </div>
-
-        {!created && (
+          {!created && (
           <p className="text-center text-sm text-zinc-400">
             Already have an account? <a href="/login" className="text-white font-medium hover:underline">Sign in</a>
           </p>
         )}
+          </div>
+        </div>
+
+        
       </div>
     </div>
   )

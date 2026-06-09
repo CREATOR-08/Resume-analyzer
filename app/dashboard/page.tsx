@@ -24,16 +24,18 @@ function formatDate(date?: Date) {
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
-  const latestAnalysis = user
-    ? await prisma.analysis.findFirst({
+  const recentAnalyses = user
+    ? await prisma.analysis.findMany({
         where: {
           userId: user.id,
         },
         orderBy: {
           createdAt: "desc",
         },
+        take: 3,
       })
-    : null;
+    : [];
+  const latestAnalysis = recentAnalyses[0] ?? null;
 
   const displayName = user?.name || user?.email?.split("@")[0] || "there";
 
@@ -129,6 +131,59 @@ export default async function Dashboard() {
                   Generate another
                 </Link>
               </div>
+            </div>
+          </section>
+        )}
+
+        {recentAnalyses.length > 0 && (
+          <section className="pb-10">
+            <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-xl font-semibold text-white">Recent analysis reports</h2>
+                <p className="mt-1 text-sm text-zinc-500">Your last three saved resume analyses.</p>
+              </div>
+              <p className="text-sm text-zinc-500">Showing {recentAnalyses.length} most recent report{recentAnalyses.length === 1 ? "" : "s"}</p>
+            </div>
+
+            <div className="grid gap-4 lg:grid-cols-3">
+              {recentAnalyses.map((analysis, index) => (
+                <article
+                  key={analysis.id}
+                  className="rounded-lg border border-white/10 bg-zinc-950 p-5 shadow-lg shadow-black/10"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.22em] text-zinc-500">Report {index + 1}</p>
+                      <h3 className="mt-2 text-lg font-semibold text-white">Score {analysis.score}</h3>
+                    </div>
+                    <span className={`text-lg font-semibold ${scoreTone(analysis.score)}`}>{analysis.score}</span>
+                  </div>
+
+                  <p className="mt-3 flex items-center gap-2 text-sm text-zinc-500">
+                    <HiClock className="h-4 w-4" />
+                    {formatDate(analysis.createdAt)}
+                  </p>
+
+                  <div className="mt-5 flex gap-3">
+                    <a
+                      href={analysis.pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex flex-1 items-center justify-center rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-200"
+                    >
+                      Open PDF
+                    </a>
+                    {index === 0 && (
+                      <Link
+                        href="/summary"
+                        className="inline-flex items-center justify-center rounded-lg border border-white/10 px-4 py-2.5 text-sm font-semibold text-zinc-200 transition hover:border-white/30 hover:bg-white/5"
+                      >
+                        Summary
+                      </Link>
+                    )}
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         )}
