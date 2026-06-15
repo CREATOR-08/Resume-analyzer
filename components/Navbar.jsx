@@ -28,6 +28,7 @@ const Navbar = ({ initialUser = null }) => {
     const navLinks = [
     { href: '/dashboard', label: 'Dashboard' },
     { href: '/analyse', label: 'Analyse' },
+    { href: '/premium', label: 'Premium' },
     ...(!logged ? [{ href: '/signup', label: 'Sign Up' }] : []),
   ];
 

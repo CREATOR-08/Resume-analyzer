@@ -1,50 +1,45 @@
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 
-  
 }
 
-
 model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String     @unique
-  emailVerified Boolean    @default(false)
-  image         String?
-  password      String?
-
-  sessions Session[]
-  accounts Account[]
-  analyses Analysis[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String     @id @default(cuid())
+  name           String?
+  email          String     @unique
+  password       String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  emailVerified  Boolean    @default(false)
+  image          String?
+  user_type      String     @default("basic")
+  analysis_count Int        @default(0)
+  accounts       Account[]
+  analyses       Analysis[]
+  sessions       Session[]
 }
 
 model Session {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  expiresAt   DateTime
-  token       String   @unique
-  ipAddress   String?
-  userAgent   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Account {
-  id                    String   @id @default(cuid())
+  id                    String    @id @default(cuid())
   providerId            String
   accountId             String
   userId                String
-  user                  User     @relation(fields: [userId], references: [id])
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -52,8 +47,9 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  user                  User      @relation(fields: [userId], references: [id])
 
   @@unique([providerId, accountId])
 }
@@ -68,12 +64,23 @@ model Verification {
 }
 
 model Analysis {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
   pdfUrl    String
   score     Int
-
   userId    String
-  user      User @relation(fields: [userId], references: [id])
-
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model JobDescription {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  company_name String
+  role         String
+  year         Int
+  pdf_url      String?
+  jd_text      String?
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  updated_at   DateTime? @default(now()) @db.Timestamp(6)
+
+  @@unique([company_name, role, year], map: "unique_company_role_year")
 }

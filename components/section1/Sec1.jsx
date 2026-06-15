@@ -3,6 +3,7 @@ import React from 'react'
 import Left from './Left';
 import Laptop from './Laptop';
 import Hero from './Hero';
+import ResumeLensHero from '../ResumeLensHero';
 
 /**
  * @typedef {{ id: string; name: string | null; email: string | null } | null} SectionInitialUser
@@ -30,7 +31,19 @@ const Sec1 = ({ initialUser = null }) => {
 
             {/* RIGHT SIDE: laptop */}
             <div className='hidden md:flex items-center justify-center'>
-              <Laptop />
+              <ResumeLensHero
+
+                resumeImage="/resume.jfif"
+
+                scoreImage="/score.jfif"
+
+                recommendationImage="/recommendation.jfif"
+
+                skillsImage="/skills.jfif"
+
+                summaryImage="/summary.jfif"
+
+              />
             </div>
           </div>
         </div>
