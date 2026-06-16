@@ -34,7 +34,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  if (user.user_type === "basic" && user.analysis_count >= 2) {
+  const isAdmin =
+    user.user_type === "admin" ||
+    user.email === "himanshubhagat080104@gmail.com";
+
+  if (!isAdmin && user.user_type === "basic" && user.analysis_count >= 2) {
     return NextResponse.json(
       {
         error: "Free limit reached. Upgrade to premium.",
@@ -45,10 +49,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { success } = await ratelimit.limit(userIdentifier);
+  if (!isAdmin) {
+    const { success } = await ratelimit.limit(userIdentifier);
 
-  if (!success) {
-    return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
   }
 
   try {
