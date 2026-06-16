@@ -6,13 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type PremiumFeature = {
-  title: string;
-  description: string;
-  icon: "infinity" | "building" | "sparkles" | "history" | "rocket" | "star";
-};
-
-const features: PremiumFeature[] = [
+const features = [
   {
     title: "Unlimited Resume Analyses",
     description: "Analyze your resume as many times as you want without restrictions.",
@@ -45,13 +39,13 @@ const features: PremiumFeature[] = [
   },
 ];
 
-function FeatureIcon({ icon }: { icon: PremiumFeature["icon"] }) {
+function FeatureIcon({ icon }) {
   const common = {
     fill: "none",
     stroke: "currentColor",
     strokeWidth: 1.8,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
     viewBox: "0 0 24 24",
     className: "h-6 w-6",
     "aria-hidden": true,
@@ -108,22 +102,17 @@ function FeatureIcon({ icon }: { icon: PremiumFeature["icon"] }) {
 }
 
 export default function PremiumBenefitsSection() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const badgeShineRef = useRef<HTMLSpanElement | null>(null);
-  const ctaRef = useRef<HTMLButtonElement | null>(null);
-  const gridRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef(null);
+  const badgeShineRef = useRef(null);
+  const ctaRef = useRef(null);
+  const gridRef = useRef(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const grid = gridRef.current;
 
-    if (!section || !grid) {
-      return;
-    }
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
+    if (!section || !grid) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const ctx = gsap.context(() => {
       gsap.from(section, {
@@ -188,27 +177,48 @@ export default function PremiumBenefitsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-gray-950 px-4 py-20 text-slate-100 sm:px-6 lg:px-8 lg:py-24">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute left-1/2 top-0 h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_rgba(56,189,248,0.12)_0%,_rgba(15,23,42,0)_68%)]" />
-        <div className="absolute bottom-0 right-0 h-[20rem] w-[20rem] translate-x-1/3 translate-y-1/3 rounded-full bg-[radial-gradient(circle,_rgba(148,163,184,0.08)_0%,_rgba(15,23,42,0)_70%)]" />
+    <section 
+      ref={sectionRef} 
+      className="relative overflow-hidden px-4 py-20 text-slate-100 sm:px-6 lg:px-8 lg:py-24 bg-[#040407]"
+      style={{ backgroundColor: '#040407' }}
+    >
+      {/* TIGHT AMBIENT BACKDROP: Matches the exact glow logic used behind your laptop graphics */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[80px] mix-blend-screen" />
+        <div className="absolute top-1/2 left-1/2 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-500/15 blur-[50px] mix-blend-screen" />
+        
+        {/* Subtle texture layout overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
+          style={{
+            backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), 
+                              linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+            backgroundSize: "44px 44px",
+          }}
+        />
       </div>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="mb-10 text-center sm:mb-12" data-premium-copy>
-          <h2 className="bg-gradient-to-r from-white via-slate-200 to-cyan-200 bg-clip-text text-4xl font-semibold tracking-tight text-transparent sm:text-5xl lg:text-6xl">
+      <div className="relative z-10 mx-auto max-w-6xl">
+        {/* SECTION HEADER BLOCK */}
+        <div className="mb-14 text-center sm:mb-16" data-premium-copy>
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.05] bg-white/[0.02] px-3 py-1 text-[10px] font-bold tracking-[0.2em] uppercase text-zinc-400 backdrop-blur-sm">
+            Exclusive System Tiers
+          </div>
+          <h2 className="mt-6 bg-gradient-to-b from-white via-neutral-200 to-neutral-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl lg:text-6xl leading-[1.15]">
             Unlock Premium
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base md:text-lg">
             Take your resume analysis experience to the next level.
           </p>
         </div>
 
-        <div className="relative overflow-hidden rounded-3xl border border-slate-700/40 bg-slate-900/50 shadow-[0_24px_80px_rgba(2,6,23,0.45)] backdrop-blur-sm">
+        {/* CONTAINER SHELL DYNAMICS */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/[0.04] bg-[#0c0c0e]/40 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-md">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
+          {/* Premium Metallic Token Badge */}
           <div className="absolute right-5 top-5 sm:right-6 sm:top-6">
-            <div className="relative overflow-hidden rounded-full border border-amber-300/30 bg-gradient-to-r from-amber-400/90 via-yellow-300/90 to-amber-500/90 px-4 py-2 text-[11px] font-semibold tracking-[0.32em] text-slate-950 shadow-[0_10px_30px_rgba(251,191,36,0.12)]">
+            <div className="relative overflow-hidden rounded-full border border-amber-500/30 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 px-4 py-1.5 text-[10px] font-bold tracking-[0.3em] text-slate-950 shadow-[0_10px_30px_rgba(251,191,36,0.15)]">
               <span ref={badgeShineRef} className="absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/70 to-transparent opacity-0" />
               <span className="relative">PREMIUM</span>
             </div>
@@ -220,27 +230,27 @@ export default function PremiumBenefitsSection() {
                 <article
                   key={feature.title}
                   data-premium-card
-                  className="group rounded-2xl border border-slate-800 bg-slate-900 px-5 py-6 shadow-[0_12px_35px_rgba(2,6,23,0.28)] transition-transform duration-300 ease-out hover:-translate-y-1"
+                  className="group rounded-2xl border border-white/[0.04] bg-[#111115]/80 px-5 py-6 shadow-[0_12px_35px_rgba(0,0,0,0.4)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-zinc-700/50 hover:bg-[#141419]"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700/80 bg-slate-950 text-slate-100 transition-colors duration-300 group-hover:border-slate-600 group-hover:text-white">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.08] bg-[#070709] text-zinc-300 transition-colors duration-300 group-hover:border-zinc-600 group-hover:text-white">
                     <FeatureIcon icon={feature.icon} />
                   </div>
 
-                  <h3 className="mt-5 text-lg font-semibold tracking-tight text-white">
+                  <h3 className="mt-5 text-base font-semibold tracking-tight text-white">
                     {feature.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                  <p className="mt-2 text-xs leading-relaxed text-zinc-400">
                     {feature.description}
                   </p>
                 </article>
               ))}
             </div>
 
-            <div className="mt-10 flex justify-center sm:mt-12">
+            <div className="mt-12 flex justify-center">
               <button
                 ref={ctaRef}
                 type="button"
-                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3.5 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(79,70,229,0.24)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_18px_40px_rgba(79,70,229,0.25)] transition-transform duration-300 ease-out hover:-translate-y-0.5"
               >
                 Upgrade Coming Soon
               </button>

@@ -71,12 +71,13 @@ const handleSubmit = async (e: React.FormEvent) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <main className="min-h-screen bg-[#040407] px-4 py-16 text-white sm:px-6 lg:px-8">
+      <form onSubmit={handleSubmit} className="space-y-8">
 
-  <div className="text-center space-y-4">
-    <div className="inline-flex items-center rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-400">
-      AI Powered Resume Analysis
-    </div>
+        <div className="text-center space-y-4">
+          <div className="inline-flex items-center rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm text-blue-400">
+            AI Powered Resume Analysis
+          </div>
 
     <h1 className="text-5xl font-bold text-white">
       Optimize Your Resume
@@ -230,5 +231,6 @@ const handleSubmit = async (e: React.FormEvent) => {
 </div>
 
 </form>
+    </main>
   )
 }

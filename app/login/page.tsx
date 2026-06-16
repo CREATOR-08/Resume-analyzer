@@ -91,7 +91,7 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white px-4 py-10 md:px-12">
+    <main className="min-h-screen bg-[#040407] text-white px-4 py-10 md:px-12">
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2 items-center">
         <div className="flex items-center justify-center">
           <div className="w-full max-w-lg rounded-[2rem] border border-zinc-800 bg-zinc-900/95 p-10 shadow-2xl">
@@ -167,7 +167,7 @@ export default function LoginPage() {
         <div className="flex items-center justify-center">
           <div className="w-full max-w-lg rounded-[2rem] overflow-hidden border border-zinc-800 shadow-2xl">
             <img
-              src="/loginimg.png"
+              src="/login/loginimg.png"
               alt="Login illustration"
               className="h-full w-full object-cover"
             />

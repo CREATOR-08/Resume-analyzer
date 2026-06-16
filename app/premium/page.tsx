@@ -2,6 +2,7 @@
 import premiumBridge from '@/lib/premiumbridge'
 import React, { useEffect, useState } from 'react'
 import Roles from '@/components/Roles'
+import { useAuthStore } from '@/store/logged'
 
 import { useRouter } from "next/navigation";
 import {handleSubmit} from './handleSubmit'
@@ -35,6 +36,8 @@ export default function PremiumPage () {
   const router=useRouter();
 
   const [loading, setLoading] = useState(false)
+  const logged = useAuthStore((state) => state.logged)
+
   // Safe lookup with an explicit runtime fallback to avoid component crashes
   const displayJob = selectedJob || {
     id: '',
@@ -88,7 +91,7 @@ export default function PremiumPage () {
   }
 
   return (
-    <div className='min-h-screen bg-slate-950 text-white font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200'>
+    <div className='min-h-screen bg-[#040407] text-white font-sans antialiased selection:bg-indigo-500/30 selection:text-indigo-200'>
       <div className='max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 space-y-12'>
         {/* --- HERO SECTION --- */}
         <section className='text-center space-y-4 max-w-3xl mx-auto'>
@@ -293,7 +296,7 @@ export default function PremiumPage () {
           </p>
         </div>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-2 md:px-0'>
           <div className='bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-md'>
             <div className='p-2.5 bg-indigo-600/10 text-indigo-400 border border-indigo-500/10 rounded-xl w-fit'>
               <Infinity className='h-5 w-5' />
@@ -348,11 +351,21 @@ export default function PremiumPage () {
       <section className='flex justify-center pt-8'>
         <button
           type='button'
-          className='h-[56px] w-[260px] inline-flex items-center justify-center font-semibold text-white rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all duration-150 shadow-lg shadow-indigo-600/20 active:scale-[0.98] cursor-pointer'
-          onClick={()=>{
-            handleSubmit(resumeFile,selectedJob,setLoading,router)
-          }}        >
-          Start Premium Scan
+          disabled={!logged}
+          onClick={() => {
+            if (!logged) {
+              router.push('/login')
+              return
+            }
+            handleSubmit(resumeFile, selectedJob, setLoading, router)
+          }}
+          className={`h-[56px] w-[260px] inline-flex items-center justify-center font-semibold text-white rounded-full transition-all duration-150 shadow-lg shadow-indigo-600/20 active:scale-[0.98] ${
+            logged
+              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 cursor-pointer'
+              : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+          }`}
+        >
+          {logged ? 'Start Premium Scan' : 'Log in to scan'}
         </button>
       </section>
     </div>

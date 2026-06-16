@@ -143,7 +143,7 @@ export default function ResumeMatchSummary() {
 
   if (!result) {
     return (
-      <main className="min-h-screen bg-slate-950 text-slate-100">
+      <main className="min-h-screen bg-[#040407] text-slate-100">
         <div className="mx-auto max-w-3xl px-4 py-20 text-center">
           <p className="text-sm uppercase tracking-[0.28em] text-cyan-300">No analysis loaded</p>
           <h1 className="mt-6 text-4xl font-semibold text-white">Resume analysis not yet available</h1>
@@ -162,7 +162,7 @@ export default function ResumeMatchSummary() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-[#040407] text-slate-100">
       <div className="mx-auto max-w-7xl px-2 py-6 sm:px-6 lg:px-8">
         <header className="flex flex-col gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">

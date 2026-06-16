@@ -1,6 +1,6 @@
 export default function Contacts() {
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 px-6 py-12">
+    <div className="min-h-screen bg-[#040407] text-zinc-100 px-6 py-12">
       <div className="mx-auto max-w-7xl">
         <h1 className="text-3xl font-semibold mb-4">Contacts</h1>
         <p className="text-zinc-300 mb-6">This is the contacts page. The navbar should route here properly now.</p>

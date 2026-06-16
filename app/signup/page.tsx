@@ -93,12 +93,12 @@ export default function Signup() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 px-4 py-10 text-white sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#040407] px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="order-2 lg:order-1">
           <div className="overflow-hidden rounded-[2rem] border border-zinc-800 bg-zinc-900/60 shadow-2xl shadow-black/30">
             <img
-              src="/loginimg.png"
+              src="/login/loginimg.png"
               alt="Signup illustration"
               className="h-full w-full object-cover"
             />

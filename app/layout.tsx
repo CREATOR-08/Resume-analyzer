@@ -20,7 +20,7 @@ export default async function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 antialiased">
+      <body className="min-h-screen flex flex-col bg-[#040407] text-zinc-100 antialiased">
         <Navbar initialUser={user} />
         <main className="flex-1 w-full">
           {children}

@@ -30,6 +30,6 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/analyse/bridge.tsx"
-  ],
+, "components/ResumeLensHero.jsx", "components/section2/Sec2.jsx", "components/PremiumBenefitsSection.jsx"  ],
   "exclude": ["node_modules"]
 }
