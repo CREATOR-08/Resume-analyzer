@@ -146,7 +146,7 @@ export default async function Dashboard() {
             </div>
 
             <div className="grid gap-4 lg:grid-cols-3">
-              {recentAnalyses.map((analysis, index) => (
+              {recentAnalyses.map((analysis:any, index:any) => (
                 <article
                   key={analysis.id}
                   className="rounded-lg border border-white/10 bg-zinc-950 p-5 shadow-lg shadow-black/10"
