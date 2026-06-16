@@ -240,7 +240,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {Array.isArray(data.strengths) && data.strengths.map((item, idx) => {
+              {Array.isArray(data.strengths) && data.strengths.map((item:any, idx:any) => {
                 const text = getTextContent(item);
                 return (
                   <li key={idx} className="border-l-2 border-emerald-300/60 pl-3">
@@ -254,7 +254,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-rose-300">Concerns</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {Array.isArray(data.concerns) && data.concerns.map((item, idx) => {
+              {Array.isArray(data.concerns) && data.concerns.map((item:any, idx:any) => {
                 const text = getTextContent(item);
                 return (
                   <li key={idx} className="border-l-2 border-rose-300/60 pl-3">
@@ -318,7 +318,7 @@ export default function ResumeMatchSummary() {
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
             <div className="mt-4 space-y-4">
               {Array.isArray(data.recommendations) && data.recommendations.length > 0 ? (
-                data.recommendations.map((item, idx) => {
+                data.recommendations.map((item:any, idx:any) => {
                   // Handle both string and object formats
                   if (typeof item === "string") {
                     return (
