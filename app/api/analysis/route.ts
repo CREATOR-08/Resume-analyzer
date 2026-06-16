@@ -5,10 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { ratelimit } from "@/lib/ratelimit";
 import { sendReportEmail } from "@/lib/sendReportEmail";
 export const runtime = "nodejs";
-import { asArray, asRecord, asString, escapeHtml, StringRecord,firstNumber } from "../helper_functions/data_definition";
-import { buildAnalysisHtml } from "../helper_functions/buildAnalysisHtml";
-import { createAnalysisPdf } from "../helper_functions/createAnalysisPdf";
-import { uploadPdfToSupabase } from "../helper_functions/uploadPdfToSupabase";
+import { asArray, asRecord, asString, escapeHtml, StringRecord,firstNumber } from "./helper_functions/data_definition";
+import { buildAnalysisHtml } from "./helper_functions/buildAnalysisHtml";
+import { createAnalysisPdf } from "./helper_functions/createAnalysisPdf";
+import { uploadPdfToSupabase } from "./helper_functions/uploadPdfToSupabase";
+
+
 export async function POST(req: NextRequest) {
   const currentUser = await getCurrentUser();
   const userIdentifier = currentUser ? `user:${currentUser.id}` : "anonymous";
