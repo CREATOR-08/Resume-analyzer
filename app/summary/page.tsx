@@ -115,6 +115,26 @@ export default function ResumeMatchSummary() {
   const result: any = useAnalysisStore((state) => state.result);
   const data = result ?? {};
   const overallScore = useMemo(() => Number(data.overall_score ?? data.overallScore ?? data.score ?? 0), [data.overall_score, data.overallScore, data.score]);
+  const companyName = useMemo(() => {
+    return (
+      data.company_name ??
+      data.companyName ??
+      data.target_company ??
+      data.targetCompany ??
+      data.company ??
+      data.employer ??
+      data.organization ??
+      "Unknown Company"
+    );
+  }, [
+    data.company_name,
+    data.companyName,
+    data.target_company,
+    data.targetCompany,
+    data.company,
+    data.employer,
+    data.organization,
+  ]);
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
   const skills = (data.skills ?? []) as SkillEntry[];
@@ -147,7 +167,8 @@ export default function ResumeMatchSummary() {
         <header className="flex flex-col gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-300">AI resume assessment</p>
-            <h1 className="mt-3 text-3xl font-semibold text-white sm:text-5xl">Candidate Match Summary</h1>
+            <h1 className="mt-3 text-3xl font-semibold text-white sm:text-5xl">{companyName}</h1>
+            <p className="mt-2 text-sm uppercase tracking-[0.2em] text-slate-400">Target Company</p>
             <p className="mt-4 text-base leading-7 text-slate-300">{data.role_summary}</p>
           </div>
           <div className="space-y-4 rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300">

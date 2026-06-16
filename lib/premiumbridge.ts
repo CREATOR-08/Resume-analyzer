@@ -25,7 +25,7 @@ const premiumbridge = async (
   if (role) formData.append("role", role);
   if (jobDescription) formData.append("jobDescription", jobDescription);
 
-  const response = await fetch(process.env.NEXT_PUBLIC_AI_SERVICES!, {
+  const response = await fetch(process.env.NEXT_PUBLIC_AI_SERVICES_PREMIUM!, {
     method: "POST",
     body: formData,
   });
