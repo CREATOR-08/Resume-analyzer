@@ -163,7 +163,7 @@ export default function ResumeMatchSummary() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-2 py-6 sm:px-6 lg:px-8">
         <header className="flex flex-col gap-5 border-b border-slate-800 pb-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p className="text-xs uppercase tracking-[0.24em] text-cyan-300">AI resume assessment</p>
@@ -179,13 +179,13 @@ export default function ResumeMatchSummary() {
               Model: <span className="font-medium text-white">{data.model}</span>
             </div>
             <div className="mt-4">
-              <PremiumAnalysisButton onResponse={setPremiumResponse} />
+              <PremiumAnalysisButton fromSummary={true} />
             </div>
           </div>
         </header>
 
         {premiumResponse && (
-          <section className="mb-6 rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+          <section className="mb-6 rounded-lg border border-slate-800 bg-slate-900/80 p-5 mx-2">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Premium Checked Analysis</h2>
             <div className="mt-3 text-sm text-slate-300">
               <div>Provider: <span className="font-medium text-white">{(premiumResponse as any)?.provider ?? 'Premium Backend'}</span></div>
@@ -207,7 +207,7 @@ export default function ResumeMatchSummary() {
           <BarChart title="Effective Weights" data={weightData} />
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-3">
+        <section className="grid gap-5 lg:grid-cols-3 mx-2">
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
@@ -232,7 +232,7 @@ export default function ResumeMatchSummary() {
           </div>
         </section>
 
-        <section className="mt-5 rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+        <section className="mt-5 rounded-lg border border-slate-800 bg-slate-900/80 p-5 mx-2">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Skill Evidence</h2>
@@ -274,29 +274,17 @@ export default function ResumeMatchSummary() {
           </div>
         </section>
 
-        <section className="mt-5 grid gap-5 lg:grid-cols-[1fr_360px]">
+        <section className="mt-5 grid gap-5 lg:grid-cols-[1fr_360px] mx-2">
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
-            <div className="mt-4 space-y-4">
-              {data.recommendations?.map((item: { priority: string; area: string; action: string; suggested_project: string }) => (
-                <article key={`${item.priority}-${item.area}`} className="rounded-md border border-slate-800 bg-slate-950/70 p-4">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-base font-semibold text-white">{item.area}</span>
-                    <span className="rounded-full bg-slate-800 px-3 py-1 text-xs uppercase tracking-[0.12em] text-slate-300">
-                      {item.priority}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.action}</p>
-                  {item.suggested_project && (
-                    <p className="mt-3 text-sm text-cyan-200">Suggested project: {item.suggested_project}</p>
-                  )}
-                </article>
+            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+              {data.recommendations?.map((item: string, idx: number) => (
+                <li key={idx} className="border-l-2 border-sky-300/60 pl-3">{item}</li>
               ))}
-            </div>
+            </ul>
           </div>
-
           <aside className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Quick View</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Detailed Scores</h2>
             <dl className="mt-4 space-y-4 text-sm">
               <div className="flex items-center justify-between gap-4">
                 <dt className="text-slate-400">Experience</dt>

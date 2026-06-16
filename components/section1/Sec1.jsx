@@ -35,7 +35,7 @@ const Sec1 = ({ initialUser = null }) => {
 
                 resumeImage="/resume.jfif"
 
-                scoreImage="/score.jfif"
+                scoreImage="/score.jpg"
 
                 recommendationImage="/recommendation.jfif"
 

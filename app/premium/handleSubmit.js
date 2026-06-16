@@ -1,5 +1,6 @@
 import premiumbridge from "@/lib/premiumbridge";
-export const handleSubmit = async (resumeFile, selectedJob, setLoading,router) => {
+import { useAnalysisStore } from "@/store/useAnalysisStore";
+export const handleSubmit = async (resumeFile, selectedJob, setLoading, router) => {
 
   setLoading(true);
   if (!resumeFile) {
@@ -43,8 +44,11 @@ export const handleSubmit = async (resumeFile, selectedJob, setLoading,router) =
     );
 
     console.log(result);
+    
+    useAnalysisStore.getState().setPremiumResult(result);
+    useAnalysisStore.getState().setSelectedJob(selectedJob);
 
-    router.push("/summary");
+    router.push("/summary/premium");
 
   }
 
