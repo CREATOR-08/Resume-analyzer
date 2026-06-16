@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 import PremiumAnalysisButton from "@/components/PremiumAnalysisButton";
 import { useAnalysisStore } from "@/store/useAnalysisStore";
@@ -12,8 +12,10 @@ function scoreTone(score = 0) {
   if (score >= 45) return "text-amber-300";
   return "text-rose-300";
 }
+
 type MatchType = "strong" | "partial" | "missing";
-function matchBadge(match:MatchType) {
+
+function matchBadge(match: MatchType) {
   const styles = {
     strong: "bg-emerald-500/15 text-emerald-200 ring-emerald-400/25",
     partial: "bg-amber-500/15 text-amber-200 ring-amber-400/25",
@@ -22,6 +24,24 @@ function matchBadge(match:MatchType) {
 
   return styles[match] || "bg-slate-700/60 text-slate-200 ring-slate-500/30";
 }
+
+type Recommendation = {
+  priority: string;
+  area: string;
+  action: string;
+  suggested_project: string;
+};
+
+type Strength = string | { text: string; [key: string]: any };
+type Concern = string | { text: string; [key: string]: any };
+
+type SkillEntry = {
+  skill: string;
+  requirement: string;
+  match: MatchType;
+  score: number;
+  gap: string;
+};
 
 function normalizeEntries(source = {}) {
   if (!source) return [];
@@ -38,12 +58,13 @@ function normalizeEntries(source = {}) {
   }));
 }
 
-type SkillEntry = {
-  skill: string;
-  requirement: string;
-  match: MatchType;
-  score: number;
-  gap: string;
+// Helper to safely get text from string or object
+const getTextContent = (item: string | any): string => {
+  if (typeof item === "string") return item;
+  if (typeof item === "object" && item !== null) {
+    return item.text || item.description || JSON.stringify(item);
+  }
+  return String(item);
 };
 
 function DonutScore({ score }:{ score: number }) {
@@ -114,6 +135,14 @@ export default function ResumeMatchSummary() {
   const [premiumResponse, setPremiumResponse] = useState<any>(null);
   const result: any = useAnalysisStore((state) => state.result);
   const data = result ?? {};
+
+  // Debug logs
+  useEffect(() => {
+    console.log("Full result:", data);
+    console.log("Recommendations:", data.recommendations);
+    console.log("Strengths:", data.strengths);
+    console.log("Concerns:", data.concerns);
+  }, [data]);
   const overallScore = useMemo(() => Number(data.overall_score ?? data.overallScore ?? data.score ?? 0), [data.overall_score, data.overallScore, data.score]);
   const companyName = useMemo(() => {
     return (
@@ -211,18 +240,28 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-300">Strengths</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.strengths?.map((item: string) => (
-                <li key={item} className="border-l-2 border-emerald-300/60 pl-3">{item}</li>
-              ))}
+              {Array.isArray(data.strengths) && data.strengths.map((item, idx) => {
+                const text = getTextContent(item);
+                return (
+                  <li key={idx} className="border-l-2 border-emerald-300/60 pl-3">
+                    {text}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-rose-300">Concerns</h2>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.concerns?.map((item: string) => (
-                <li key={item} className="border-l-2 border-rose-300/60 pl-3">{item}</li>
-              ))}
+              {Array.isArray(data.concerns) && data.concerns.map((item, idx) => {
+                const text = getTextContent(item);
+                return (
+                  <li key={idx} className="border-l-2 border-rose-300/60 pl-3">
+                    {text}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -277,11 +316,57 @@ export default function ResumeMatchSummary() {
         <section className="mt-5 grid gap-5 lg:grid-cols-[1fr_360px] mx-2">
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Recommendations</h2>
-            <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {data.recommendations?.map((item: string, idx: number) => (
-                <li key={idx} className="border-l-2 border-sky-300/60 pl-3">{item}</li>
-              ))}
-            </ul>
+            <div className="mt-4 space-y-4">
+              {Array.isArray(data.recommendations) && data.recommendations.length > 0 ? (
+                data.recommendations.map((item, idx) => {
+                  // Handle both string and object formats
+                  if (typeof item === "string") {
+                    return (
+                      <div key={idx} className="border-l-2 border-sky-300/60 pl-3 py-2 text-sm leading-6 text-slate-300">
+                        {item}
+                      </div>
+                    );
+                  }
+
+                  // Handle object format (Recommendation type)
+                  if (typeof item === "object" && item !== null) {
+                    const rec = item as Recommendation;
+                    return (
+                      <div key={idx} className="rounded-lg border border-slate-800/60 bg-slate-950/40 p-4 space-y-2">
+                        {rec.area && (
+                          <div className="text-xs">
+                            <span className="font-semibold text-amber-300">Area:</span>
+                            <p className="text-slate-300 mt-1">{rec.area}</p>
+                          </div>
+                        )}
+                        {rec.action && (
+                          <div className="text-xs">
+                            <span className="font-semibold text-sky-300">Action:</span>
+                            <p className="text-slate-300 mt-1">{rec.action}</p>
+                          </div>
+                        )}
+                        {rec.priority && (
+                          <div className="text-xs">
+                            <span className="font-semibold text-rose-300">Priority:</span>
+                            <p className="text-slate-300 mt-1">{rec.priority}</p>
+                          </div>
+                        )}
+                        {rec.suggested_project && (
+                          <div className="text-xs">
+                            <span className="font-semibold text-emerald-300">Suggested Project:</span>
+                            <p className="text-slate-300 mt-1">{rec.suggested_project}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  return null;
+                })
+              ) : (
+                <p className="text-sm text-slate-500">No recommendations available.</p>
+              )}
+            </div>
           </div>
           <aside className="rounded-lg border border-slate-800 bg-slate-900/80 p-5">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Detailed Scores</h2>
