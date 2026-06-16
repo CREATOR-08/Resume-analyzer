@@ -24,6 +24,14 @@ function matchBadge(match:MatchType) {
 }
 
 function normalizeEntries(source = {}) {
+  if (!source) return [];
+  if (Array.isArray(source)) {
+    return source.map((item: any) => ({
+      name: (item.name ?? item.label ?? String(item.key ?? "")).toString(),
+      value: Number(item.value ?? item.score ?? 0) || 0,
+    }));
+  }
+
   return Object.entries(source).map(([name, value]) => ({
     name: name.charAt(0).toUpperCase() + name.slice(1),
     value: Number(value) || 0,
@@ -106,6 +114,7 @@ export default function ResumeMatchSummary() {
   const [premiumResponse, setPremiumResponse] = useState<any>(null);
   const result: any = useAnalysisStore((state) => state.result);
   const data = result ?? {};
+  const overallScore = useMemo(() => Number(data.overall_score ?? data.overallScore ?? data.score ?? 0), [data.overall_score, data.overallScore, data.score]);
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
   const skills = (data.skills ?? []) as SkillEntry[];
@@ -170,7 +179,7 @@ export default function ResumeMatchSummary() {
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5 shadow-xl shadow-black/20">
             <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-300">Match Score</h2>
             <div className="mt-5 flex justify-center">
-              <DonutScore score={Number(data.overall_score) || 0} />
+            <DonutScore score={overallScore} />
             </div>
           </div>
           <BarChart title="Category Scores" data={categoryData} />
@@ -235,7 +244,7 @@ export default function ResumeMatchSummary() {
                         {item.match}
                       </span>
                     </td>
-                    <td className={`py-4 pr-4 font-semibold ${scoreTone(item.score)}`}>{item.score}%</td>
+                    <td className={`py-4 pr-4 font-semibold ${scoreTone(Number(item.score) || 0)}`}>{`${Number(item.score) || 0}%`}</td>
                     <td className="max-w-xl py-4 pr-4 leading-6 text-slate-300">{item.gap || "No major gap found."}</td>
                   </tr>
                 ))}

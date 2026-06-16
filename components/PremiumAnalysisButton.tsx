@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import premiumbridge from "@/lib/premiumbridge";
+import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 type PremiumAnalysisButtonProps = {
   endpointUrl?: string;
@@ -14,35 +16,25 @@ export default function PremiumAnalysisButton({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const endpoint = endpointUrl || process.env.NEXT_PUBLIC_AI_SERVICES_PREMIUM;
+  const resumeFile = useAnalysisStore((s) => s.resumeFile);
+  const result = useAnalysisStore((s) => s.result);
+  const role = (result as any)?.role ?? "";
 
   const handleClick = async () => {
     setError(null);
 
-    if (!endpoint) {
-      setError("Premium endpoint is not configured.");
+    if (!resumeFile) {
+      setError("No resume file available. Run basic analysis first or upload a resume.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-      });
+      // pdfUrl and jobDescription may not be available from summary; pass empty values when absent
+      const payload = await premiumbridge(resumeFile, "", role, "");
 
-      if (!response.ok) {
-        throw new Error(`Premium request failed (${response.status})`);
-      }
-
-      const payload = await response.json();
-
-      if (onResponse) {
-        onResponse(payload);
-      }
+      if (onResponse) onResponse(payload);
 
       console.log("Premium response:", payload);
     } catch (err) {

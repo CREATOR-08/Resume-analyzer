@@ -4,6 +4,7 @@ import { useState } from "react"
 import bridge from "./bridge"
 import { useRouter } from "next/navigation";
 import ResumeLoading from "@/components/ResumeLoading";
+import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 export default function AnalysePage() {
   const router = useRouter();
@@ -132,9 +133,12 @@ const handleSubmit = async (e: React.FormEvent) => {
           accept=".pdf,.doc,.docx"
           onChange={(e) => {
             if (e.target.files?.[0]) {
-              setResumeFile(e.target.files[0])
-            }
-          }}
+            const f = e.target.files[0];
+            setResumeFile(f);
+            // keep a reference to the uploaded resume in global store so other pages (summary/premium) can reuse it
+            useAnalysisStore.getState().setResumeFile(f);
+          }
+        }}
         />
       </label>
     </div>
