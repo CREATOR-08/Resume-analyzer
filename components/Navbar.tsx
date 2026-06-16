@@ -4,8 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { HiMenu, HiX } from "react-icons/hi";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from '@/store/logged';
+type User = {
+  id: string;
+  name: string | null;
+  email: string;
+};
+type NavbarProps = {
+  initialUser?: User | null;
+};
 
-const Navbar = ({ initialUser = null }) => {
+const Navbar = ({ initialUser = null }:NavbarProps) => {
   const pathname = usePathname();
   const storeLogged = useAuthStore((state) => state.logged);
   const setUser = useAuthStore((state) => state.setUser);

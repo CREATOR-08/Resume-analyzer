@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { getCurrentUser } from "@/lib/session";
 
+
+
 export const metadata = {
   title: "resume-lens - Resume Analysis Tool",
   description: "Get honest, practical suggestions to improve your resume clarity, formatting, and structure.",
