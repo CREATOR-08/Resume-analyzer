@@ -50,7 +50,7 @@ if (pathname !== "/") {
         <Link href="/" className='flex items-center gap-2 md:gap-3 hover:opacity-90 transition'>
           <img src='/logo.png' className='w-10 h-10 md:w-12 md:h-12' alt='Logo' />
           <div className='hidden md:block text-zinc-100'>
-            <h5 className='text-sm font-bold'>ResumeLens</h5>
+            <h5 className='text-sm font-bold'>resume-lens</h5>
           </div>
         </Link>
 

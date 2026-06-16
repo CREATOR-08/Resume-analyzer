@@ -28,7 +28,7 @@ export function buildAnalysisHtml({
     <html>
       <head>
         <meta charset="utf-8" />
-        <title>ResumeLens Analysis</title>
+        <title>resume-lens Analysis</title>
         <style>
           * { box-sizing: border-box; }
           body {
@@ -143,7 +143,7 @@ export function buildAnalysisHtml({
       <body>
         <main class="page">
           <section class="hero">
-            <div class="eyebrow">ResumeLens Analysis</div>
+            <div class="eyebrow">resume-lens Analysis</div>
             <h1>Candidate Match Summary</h1>
             <p class="muted">
               ${escapeHtml(userName)} · ${escapeHtml(role || "Target role not provided")} · ${escapeHtml(

@@ -82,7 +82,7 @@ const premiumbridge = async (
 
   const response = await fetch(
 
-    process.env.NEXT_PUBLIC_AI_SERVICES_PREMIUM!,
+    process.env.NEXT_PUBLIC_AI_SERVICES!,
 
     {
 

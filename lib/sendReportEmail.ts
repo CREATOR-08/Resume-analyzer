@@ -12,7 +12,7 @@ export async function sendReportEmail({
   pdfUrl,
 }: SendReportEmailProps) {
   return await resend.emails.send({
-    from: "ResumeLens <onboarding@resend.dev>",
+    from: "resume-lens <onboarding@resend.dev>",
     to: email,
     subject: "Your Resume Analysis Report",
     html: `
@@ -31,7 +31,7 @@ export async function sendReportEmail({
 
         <br/><br/>
 
-        <p>Thank you for using ResumeLens.</p>
+        <p>Thank you for using resume-lens.</p>
       </div>
     `,
   });

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
+import PremiumAnalysisButton from "@/components/PremiumAnalysisButton";
 import { useAnalysisStore } from "@/store/useAnalysisStore";
 
 function scoreTone(score = 0) {
@@ -102,7 +103,8 @@ function BarChart({ title, data, suffix = "%" }:{title:string;data:{ name: strin
 }
 
 export default function ResumeMatchSummary() {
-  const result = useAnalysisStore((state) => state.result);
+  const [premiumResponse, setPremiumResponse] = useState<any>(null);
+  const result: any = useAnalysisStore((state) => state.result);
   const data = result ?? {};
   const categoryData = useMemo(() => normalizeEntries(data.category_scores), [data.category_scores]);
   const weightData = useMemo(() => normalizeEntries(data.effective_weights), [data.effective_weights]);
@@ -139,15 +141,30 @@ export default function ResumeMatchSummary() {
             <h1 className="mt-3 text-3xl font-semibold text-white sm:text-5xl">Candidate Match Summary</h1>
             <p className="mt-4 text-base leading-7 text-slate-300">{data.role_summary}</p>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300">
+          <div className="space-y-4 rounded-lg border border-slate-800 bg-slate-900 px-4 py-3 text-sm text-slate-300">
             <div>
               Provider: <span className="font-medium text-white">{data.provider}</span>
             </div>
             <div className="mt-1">
               Model: <span className="font-medium text-white">{data.model}</span>
             </div>
+            <div className="mt-4">
+              <PremiumAnalysisButton onResponse={setPremiumResponse} />
+            </div>
           </div>
         </header>
+
+        {premiumResponse && (
+          <section className="mb-6 rounded-lg border border-slate-800 bg-slate-900/80 p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-300">Premium Checked Analysis</h2>
+            <div className="mt-3 text-sm text-slate-300">
+              <div>Provider: <span className="font-medium text-white">{(premiumResponse as any)?.provider ?? 'Premium Backend'}</span></div>
+              <div>Model: <span className="font-medium text-white">{(premiumResponse as any)?.model ?? 'N/A'}</span></div>
+              <div className="mt-2">Summary: <div className="mt-1 text-sm text-slate-400">{(premiumResponse as any)?.final_summary ?? (premiumResponse as any)?.summary ?? 'No summary available.'}</div></div>
+              <div className="mt-3">Score: <span className={`font-semibold ${scoreTone(Number((premiumResponse as any)?.overall_score || (premiumResponse as any)?.overallScore || 0))}`}>{Number((premiumResponse as any)?.overall_score ?? (premiumResponse as any)?.overallScore ?? 0)}</span></div>
+            </div>
+          </section>
+        )}
 
         <section className="grid gap-5 py-6 lg:grid-cols-[320px_1fr_1fr]">
           <div className="rounded-lg border border-slate-800 bg-slate-900/80 p-5 shadow-xl shadow-black/20">
@@ -271,6 +288,3 @@ export default function ResumeMatchSummary() {
     </main>
   );
 }
-
-
-

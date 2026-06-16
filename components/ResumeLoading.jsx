@@ -309,7 +309,7 @@ export default function ResumeLoading({ hideStatusBar = false }) {
                 <path d="M14.8 15.5l.9.9 1.5-1.5" stroke="white" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <span className="rl-logo-text">ResumeIQ</span>
+            <span className="rl-logo-text">resume-lens</span>
             <span className="rl-badge">AI</span>
           </div>
 
