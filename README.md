@@ -1,6 +1,6 @@
 # ResumeLens - AI Resume Analysis Platform
 
-AI-powered resume analysis platform that evaluates resumes against job descriptions and generates personalized reports with strengths, weaknesses, skill gaps, ATS insights, and actionable recommendations.
+AI-powered resume analysis platform that evaluates resumes against job descriptions and generates personalized reports with strengths, weaknesses, skill gaps, and actionable recommendations.
 
 ---
 
@@ -22,7 +22,7 @@ AI-powered resume analysis platform that evaluates resumes against job descripti
   - Skill gaps
   - Weaknesses
   - Strengths
-  - ATS compatibility
+  
 - Generate detailed PDF reports.
 - Personalized recommendations to improve resume quality.
 - Resume history dashboard.
@@ -134,7 +134,7 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 5. Gemini analyzes:
 
    - Skills
-   - ATS compatibility
+   - Resume compatibility
    - Missing keywords
    - Strengths
    - Weaknesses
@@ -157,7 +157,7 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 </p>
 
 <p align="center">
-  <i>Modern AI-powered landing page with resume upload and ATS analysis capabilities.</i>
+  <i>Modern AI-powered landing page with resume upload and analysis capabilities.</i>
 </p>
 
 ---
@@ -189,9 +189,9 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 
 <td width="50%" align="center">
 
-### ATS Score
+### Score (Based on skills projects experience etc.)
 
-<img src="./public/project_images/score2.jpg" alt="ATS Score" width="100%"/>
+<img src="./public/project_images/score2.jpg" alt="Score" width="100%"/>
 
 </td>
 
@@ -199,7 +199,7 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 </table>
 
 <p align="center">
-  <i>Receive detailed feedback on ATS compatibility, strengths, weaknesses and personalized recommendations.</i>
+  <i>Receive detailed feedback on compatibility, strengths, weaknesses and personalized recommendations.</i>
 </p>
 
 ---
@@ -251,7 +251,7 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 </table>
 
 <p align="center">
-  <i>Unlock company-specific analysis, advanced ATS insights, skill gap detection and AI-powered recommendations.</i>
+  <i>Unlock company-specific analysis, advanced Resume insights, skill gap detection and AI-powered recommendations.</i>
 </p>
 
 ---
