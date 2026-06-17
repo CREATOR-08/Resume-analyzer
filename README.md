@@ -150,35 +150,121 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 
 # 📸 Screenshots
 
-## Landing Page
+## 🚀 Landing Page
 
-![Landing](./public/project_images/heropage.jpg)
+<p align="center">
+  <img src="./public/project_images/heropage.jpg" alt="Landing Page" width="900"/>
+</p>
 
----
-
-## Resume Analysis
-
-![Analysis](./public/project_images/)
-
----
-
-## Dashboard
-
-![Dashboard](./screenshots/dashboard.png)
+<p align="center">
+  <i>Modern AI-powered landing page with resume upload and ATS analysis capabilities.</i>
+</p>
 
 ---
 
-## Generated PDF Report
+## 📊 Dashboard
 
-![PDF Report](./screenshots/report.png)
+<p align="center">
+  <img src="./public/project_images/dashboard.jpg" alt="Dashboard" width="900"/>
+</p>
+
+<p align="center">
+  <i>Track resume analyses, scores and premium insights from a unified dashboard.</i>
+</p>
 
 ---
 
-## Premium Features
+## 📑 Basic Resume Analysis
 
-![Premium](./public/project_images/premium%20benefits.jpg)
+<table>
+<tr>
+
+<td width="50%" align="center">
+
+### Analysis Report
+
+<img src="./public/project_images/analysis.jpg" alt="Analysis Report" width="100%"/>
+
+</td>
+
+<td width="50%" align="center">
+
+### ATS Score
+
+<img src="./public/project_images/score2.jpg" alt="ATS Score" width="100%"/>
+
+</td>
+
+</tr>
+</table>
+
+<p align="center">
+  <i>Receive detailed feedback on ATS compatibility, strengths, weaknesses and personalized recommendations.</i>
+</p>
 
 ---
+
+## ⭐ Premium Analysis
+
+<table>
+
+<tr>
+
+<td width="50%" align="center">
+
+### Premium Analysis
+
+<img src="./public/project_images/premium_analysis.jpg" alt="Premium Analysis" width="100%"/>
+
+</td>
+
+<td width="50%" align="center">
+
+### Company Specific Insights
+
+<img src="./public/project_images/premium_analysis_company_special.jpg" alt="Company Specific Analysis" width="100%"/>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td width="50%" align="center">
+
+### Advanced Recommendations
+
+<img src="./public/project_images/premium_analysis2.jpg" alt="Premium Analysis 2" width="100%"/>
+
+</td>
+
+<td width="50%" align="center">
+
+### Skill Gap Analysis
+
+<img src="./public/project_images/premium_analysis3.jpg" alt="Premium Analysis 3" width="100%"/>
+
+</td>
+
+</tr>
+
+</table>
+
+<p align="center">
+  <i>Unlock company-specific analysis, advanced ATS insights, skill gap detection and AI-powered recommendations.</i>
+</p>
+
+---
+
+## 💎 Premium Benefits
+
+<p align="center">
+  <img src="./public/project_images/premium benefits.jpg" alt="Premium Benefits" width="900"/>
+</p>
+
+<p align="center">
+  <i>Compare free and premium plans with advanced AI resume optimization features.</i>
+</p>
 
 # 🔐 Authentication
 
