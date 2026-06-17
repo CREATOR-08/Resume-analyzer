@@ -41,3 +41,10 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+# Claude AI
+CLAUDE.md
+.claude/
+
+# Agent frameworks
+Agents.md
+.agents/

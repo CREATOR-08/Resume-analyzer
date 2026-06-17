@@ -152,13 +152,13 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 
 ## Landing Page
 
-![Landing](./screenshots/landing.png)
+![Landing](./public/project_images/heropage.jpg)
 
 ---
 
 ## Resume Analysis
 
-![Analysis](./screenshots/analysis.png)
+![Analysis](./public/project_images/)
 
 ---
 
@@ -176,7 +176,7 @@ ResumeLens was built to provide an AI-powered, role-aware resume evaluation syst
 
 ## Premium Features
 
-![Premium](./screenshots/premium.png)
+![Premium](./public/project_images/premium%20benefits.jpg)
 
 ---
 
