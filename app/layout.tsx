@@ -1,9 +1,8 @@
 
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import WakeAiService from "@/components/WakeAiService";
 import { getCurrentUser } from "@/lib/session";
-
-
 
 export const metadata = {
   title: "resume-lens - Resume Analysis Tool",
@@ -23,6 +22,7 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body className="min-h-screen flex flex-col bg-[#040407] text-zinc-100 antialiased">
+        <WakeAiService />
         <Navbar initialUser={user} />
         <main className="flex-1 w-full">
           {children}
